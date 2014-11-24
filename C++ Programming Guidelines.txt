@@ -1,0 +1,28 @@
+GOAP Programming Guidelines
+
+The following link is a set of guidelines for writing code in C++. 
+
+No member of the team is required to follow these guidelines strictly. As long as the code is still readable and does not confuse the reader any change is fine. 
+However there are a couple exceptions (listed below that I expect everyone will follow).
+
+Link: http://geosoft.no/development/cppstyle.html#Layout of the Recommendations
+
+Exceptions:
+
+No function/method/variable name should have abbreviations.
+Example: 
+NO – “getDist();”
+YES – “getDistance();”
+
+All functions/methods names should contain a verb.
+Example: “calculateXplusY();” “getNumberOfItems()”
+
+All functions/methods/variables that are/return a Boolean should have the prefix “is”.
+Example: “isThere;” “isGetItem();”
+
+Function arguments should have the same name as their type or something logical and short.
+Example:
+NO – “computeDistance(int a, int b, Point c);”
+YES = “computeDistance(int one, int two, Point point);”
+
+Class variables should be kept private/protected and access to them should be given using getter and setter methods.
