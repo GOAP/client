@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "VS2013-Test\Testsfml\Testsfml\SfVectorMath.h"
 
 
 /*
