@@ -19,7 +19,7 @@ private:
 	friend sf::Vector2f normalize(sf::Vector2f& vector)
 	{
 		float magnitude = magnitudeOf(vector);
-		return sf::Vector2f(vector.x / magnitude, vectr.y / magnitude);
+		return sf::Vector2f(vector.x / magnitude, vector.y / magnitude);
 	}
 
 	friend sf::Vector2f rotateCounterClockwise(sf::Vector2f& vector, float angle)

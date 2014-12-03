@@ -10,7 +10,7 @@ Seperate lists for interactalbe and static objects
 std::vector<sf::Vector2f> staticPositions;
 std::vector<sf::Vector2f> interactablePositions;
 
-sf::Vector2f a(0, 0);
+sf::Vector2f a(50, 50);
 sf::CircleShape circle(40);
 
 
