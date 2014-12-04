@@ -4,7 +4,7 @@ class StaticEntity
 {
 private:
 	sf::Vector2f position;
-
+	
 	sf::CircleShape shape;
 
 public:
@@ -12,5 +12,6 @@ public:
 	~StaticEntity();
 
 	sf::CircleShape getShape();
+	sf::Vector2f* getPositionReference();
 };
 

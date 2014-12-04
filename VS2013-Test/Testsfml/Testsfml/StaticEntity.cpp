@@ -18,5 +18,7 @@ StaticEntity::~StaticEntity()
 
 sf::CircleShape StaticEntity::getShape()
 {
+	shape.setPosition(position);
 	return shape;
 }
+
