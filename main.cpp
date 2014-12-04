@@ -2,18 +2,16 @@
 #include <iostream>
 #include <vector>
 #include "VS2013-Test\Testsfml\Testsfml\SfVectorMath.h"
-
+#include "VS2013-Test\Testsfml\Testsfml\StaticEntity.h"
 
 /*
 Vector containers holding all objects.
 Seperate lists for interactalbe and static objects
 */
 std::vector<sf::Vector2f> staticPositions;
-std::vector<sf::Vector2f> interactablePositions;
 
-sf::Vector2f a(1,0);
-sf::Vector2f b(1,1);
-
+StaticEntity firstObject(20, 40, 30, staticPositions);
+StaticEntity secondObject(20, 90, 20, staticPositions);
 
 bool isTruefalse = true;
 
@@ -28,8 +26,9 @@ int main(int argc, char* argv[]) {
 				App.close();			
 		}
 		
-	
 		
+		App.draw(firstObject.getShape());
+		App.draw(secondObject.getShape());
 		App.display();
 	}
 }
