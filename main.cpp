@@ -11,8 +11,8 @@ Seperate lists for interactalbe and static objects
 std::vector<sf::Vector2f> staticPositions;
 std::vector<sf::Vector2f> interactablePositions;
 
-sf::Vector2f a(10,0);
-sf::Vector2f b(10,0);
+sf::Vector2f a(1,0);
+sf::Vector2f b(1,1);
 
 
 bool isTruefalse = true;
@@ -28,20 +28,8 @@ int main(int argc, char* argv[]) {
 				App.close();			
 		}
 		
-		std::cout << angleBetweenVectors(a, b) << std::endl;
-
-		if (isTruefalse)
-		{
-			b = rotateCounterClockwise(b, -90);
-			isTruefalse = false;
-		}
-
-		std::cout << angleBetweenVectors(a,b) << std::endl;
-		sf::RectangleShape line(a);
-		sf::RectangleShape lineTwo(b);
-
-		App.draw(line);
-		App.draw(lineTwo);
+	
+		
 		App.display();
 	}
 }

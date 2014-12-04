@@ -34,11 +34,10 @@ sf::Vector2f rotateCounterClockwise(sf::Vector2f& vector, float angle)
 
 float angleBetweenVectors(sf::Vector2f& vector1, sf::Vector2f& vector2)
 {
-	//return acos(dotProductOf(vector1, vector2) / (magnitudeOf(vector1) * magnitudeOf(vector2))) * 180 / 3.14;
 	return (atan2(vector2.y, vector2.x) - atan2(vector1.y, vector1.x)) * 180 / 3.14;
 }
 
 float distanceBetweenPoints(sf::Vector2f& vector1, sf::Vector2f& vector2)
 {
-
+	return magnitudeOf(vector1 - vector2);
 }
