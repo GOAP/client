@@ -46,10 +46,20 @@ public:
 	friend sf::Vector2f normalize(sf::Vector2f& vector);
 
 	/*
-	Returns a vector which is rotated counter clockwi
+	Returns a vector which is rotated counter clockwise.
 	*/
 	friend sf::Vector2f rotateCounterClockwise(sf::Vector2f& vector, float angle);
+
+	/*
+	Returns the angle beween the vectors. Returned value is a signed float between +- 180. 
+	If it is positive that means the second vector is in the clockwise direction.
+	If it is negative that means the second vector is in the anti cockwise direction.
+	*/
 	friend float angleBetweenVectors(sf::Vector2f& vector1, sf::Vector2f& vector2);
+	
+	/*
+	Returns the distance between two points descrbed by the two vectors.
+	*/
 	friend float distanceBetweenPoints(sf::Vector2f& vector1, sf::Vector2f& vector2);
 };
 
