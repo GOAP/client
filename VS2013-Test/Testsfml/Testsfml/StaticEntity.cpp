@@ -1,10 +1,8 @@
 #include "StaticEntity.h"
 
 
-StaticEntity::StaticEntity(int radious, float x, float y, std::vector<sf::Vector2f>& staticContainer)
+StaticEntity::StaticEntity(int radious, float x, float y)
 {
-	staticContainer.push_back(sf::Vector2f(x, y));
-
 	position.x = x;
 	position.y = y;
 
@@ -20,5 +18,10 @@ sf::CircleShape StaticEntity::getShape()
 {
 	shape.setPosition(position);
 	return shape;
+}
+
+sf::Vector2f StaticEntity::getPosition()
+{
+	return position;
 }
 

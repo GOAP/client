@@ -24,12 +24,24 @@
     <ClCompile Include="StaticEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Agent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Steering.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SfVectorMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StaticEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Agent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Steering.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

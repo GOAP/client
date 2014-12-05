@@ -8,10 +8,10 @@ private:
 	sf::CircleShape shape;
 
 public:
-	StaticEntity(int radious, float x, float y, std::vector<sf::Vector2f>& staticContainer);
+	StaticEntity(int radious, float x, float y);
 	~StaticEntity();
 
 	sf::CircleShape getShape();
-	sf::Vector2f* getPositionReference();
+	sf::Vector2f getPosition();
 };
 

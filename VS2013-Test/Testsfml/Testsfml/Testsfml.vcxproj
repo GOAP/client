@@ -12,12 +12,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\main.cpp" />
+    <ClCompile Include="Agent.cpp" />
     <ClCompile Include="SfVectorMath.cpp" />
     <ClCompile Include="StaticEntity.cpp" />
+    <ClCompile Include="Steering.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Agent.h" />
     <ClInclude Include="SfVectorMath.h" />
     <ClInclude Include="StaticEntity.h" />
+    <ClInclude Include="Steering.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{07C56128-9C22-4768-AEEF-B62E12448D7E}</ProjectGuid>
