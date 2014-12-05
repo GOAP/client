@@ -18,48 +18,50 @@ basic 2D vector operations using the 'sf::Vector2f' data type.
 
 Constructors are not used and an instance of the class does not
 need to be created for the methods to be implemented.
+
+float dotProductOf(Vector2f vector1, Vector2f vector2);
+Returns a number describing the dot product of the two Vector2f arguments.
+
+float magnitudeOf(Vector2f vector);
+Returns a number describing the lenght/magnitude of the Vector2f entered in the arguments.
+
+Vector2f normalize(Vector2f vector);
+Returns a Vector2f with the same direction as the Vector2f entered in the arguments but with 
+a magnitude of 1.
+
+Vector2f rotateCounterClockwise(Vector2f vector, float angle);
+Returns a Vector2f which is a rotated version of the Vector2f argument by the angle.
+NB: This rotation is done relative to (0,0).
+
+float angleBetweenVectors(Vector2f vector1, Vector2f vector2);
+Returns a float describing the angle between the two Vector2f arguments.
+NB: The answer is relative to the 'vector1' argument!
+	E.g vector1(1,0); vector2(0,-1); return is 270 degrees.
+		vector1(0,-1); vector2(1,0); return is 90 degrees.
+
+float distanceBetweenPoints(Vector2f vector1, Vector2f vector2);
+Returns a float describing the distance between the two vectors/points.
 */
+
 class SfVectorMath
 {
-public:
-	SfVectorMath();
-	~SfVectorMath();
-
-	/*===============================Methods==================================*/
-	/*
-	Returns a float which is the scalar(dot product) of the two vectors parsed
-	in the arguments.
-	*/
+private:
 	friend float dotProductOf(sf::Vector2f& vector1, sf::Vector2f& vector2);
-	
-	/*
-	Returns a float which is the lenght(magnitude) of the given vector.
-	*/
+
 	friend float magnitudeOf(sf::Vector2f& vector);
-	
-	/*
-	Returns a vector2f which is derived by normalizing(converting to unit vectror) the 
-	given vector.
-	The output of this metod has the same "direction" as the original vector but
-	a magnitude of '1'.
-	*/
+
 	friend sf::Vector2f normalize(sf::Vector2f& vector);
 
-	/*
-	Returns a vector which is rotated counter clockwise.
-	*/
 	friend sf::Vector2f rotateCounterClockwise(sf::Vector2f& vector, float angle);
 
-	/*
-	Returns the angle beween the vectors. Returned value is a signed float between +- 180. 
-	If it is positive that means the second vector is in the clockwise direction.
-	If it is negative that means the second vector is in the anti cockwise direction.
-	*/
 	friend float angleBetweenVectors(sf::Vector2f& vector1, sf::Vector2f& vector2);
-	
-	/*
-	Returns the distance between two points descrbed by the two vectors.
-	*/
+
 	friend float distanceBetweenPoints(sf::Vector2f& vector1, sf::Vector2f& vector2);
+
+public:	
+	SfVectorMath();
+	~SfVectorMath();
+	
+	
 };
 
