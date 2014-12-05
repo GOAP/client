@@ -34,7 +34,7 @@ void steerTo(sf::Vector2f* agentPosition, sf::Vector2f* goalPosition, std::vecto
 		Gets the direction vector from the agent to the final goal.
 		*/
 		sf::Vector2f agentDirection = *goalPosition - *agentPosition;
-		
+
 		/*
 		Calculates the actuall movement direction vector based on the list
 		of detected points.
@@ -51,6 +51,14 @@ void steerTo(sf::Vector2f* agentPosition, sf::Vector2f* goalPosition, std::vecto
 		/*
 		Normalizes the final vector to avoid a bug where the AI teleports to the end point.
 		*/
+		if (angleBetweenVectors(*goalPosition - *agentPosition, agentDirection) > 90 && angleBetweenVectors(*goalPosition - *agentPosition, agentDirection) <= 180)
+		{
+			rotateCounterClockwise(agentDirection, angleBetweenVectors(*goalPosition - *agentPosition, agentDirection) - 90);
+		}
+		else if (angleBetweenVectors(*goalPosition - *agentPosition, agentDirection) >= 180 && angleBetweenVectors(*goalPosition - *agentPosition, agentDirection) < 270)
+		{
+			rotateCounterClockwise(agentDirection, angleBetweenVectors(*goalPosition - *agentPosition, agentDirection) - 90);
+		}
 		agentDirection = normalize(agentDirection);
 		
 		/*
