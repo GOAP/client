@@ -27,7 +27,7 @@ void steerTo(sf::Vector2f* agentPosition, sf::Vector2f* goalPosition, std::vecto
 			/*
 			Stores the position of each object within the 80 "detection range" in the 'detected points' container.
 			*/
-			if (distanceBetweenPoints(listOfEntities[i].getPosition(), *agentPosition) < 80)
+			if (distanceBetweenPoints(listOfEntities[i].getPosition(), *agentPosition) < 40)
 				detectedPoints.push_back(listOfEntities[i].getPosition());
 		}
 		/*
@@ -48,6 +48,7 @@ void steerTo(sf::Vector2f* agentPosition, sf::Vector2f* goalPosition, std::vecto
 			}
 		}
 
+
 		/*
 		Normalizes the final vector to avoid a bug where the AI teleports to the end point.
 		*/
@@ -57,9 +58,10 @@ void steerTo(sf::Vector2f* agentPosition, sf::Vector2f* goalPosition, std::vecto
 		}
 		else if (angleBetweenVectors(*goalPosition - *agentPosition, agentDirection) >= 180 && angleBetweenVectors(*goalPosition - *agentPosition, agentDirection) < 270)
 		{
-			rotateCounterClockwise(agentDirection, angleBetweenVectors(*goalPosition - *agentPosition, agentDirection) - 90);
+			rotateCounterClockwise(agentDirection, angleBetweenVectors(*goalPosition - *agentPosition, agentDirection) + 90);
 		}
 		agentDirection = normalize(agentDirection);
+	
 		
 		/*
 		Because of the speed this thread runs its full operation and gets to the

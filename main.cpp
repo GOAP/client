@@ -15,8 +15,6 @@ GLOBAL CONTAINER HOLDING ALL STATIC ENTITIES
 std::vector<StaticEntity> staticEntities;
 
 
-
-
 int main(int argc, char* argv[]) {
 	sf::RenderWindow App(sf::VideoMode(800, 600), "myproject");
 	
@@ -36,7 +34,7 @@ int main(int argc, char* argv[]) {
 	/*
 	For loop populates world with static entities.
 	*/
-	for (int i = 0; i <= 20; ++i)
+	for (int i = 0; i <= 15; ++i)
 	{
 		staticEntities.push_back(StaticEntity(20, rand() % 600, rand() % 800));
 	}
