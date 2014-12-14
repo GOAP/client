@@ -16,20 +16,21 @@ std::vector<StaticEntity> steerTo(Agent &agentToMove, sf::Vector2f* goalPosition
 	Vector container to hold coordinates of objects within the "detection range".
 	*/
 	std::vector<StaticEntity> detectedPoints;
-	
+	sf::Vector2f agentDirection = *agentToMove.getDirectionReference();
 	
 	for (int i = 0; i <= listOfEntities.size() - 1; ++i)
 	{
 		/*
 		Stores the position of each object within the 80 "detection range" in the 'detected points' container.
 		*/
-		if (distanceBetweenPoints(listOfEntities[i].getPosition(), *agentToMove.getPositionReference()) < 40)
+		if (distanceBetweenPoints(listOfEntities[i].getPosition(), *agentToMove.getPositionReference()) < 80)
 			detectedPoints.push_back(listOfEntities[i]);
 	}
 	/*
 	Gets the direction vector from the agent to the final goal.
 	*/
-	sf::Vector2f agentDirection = *goalPosition - *agentToMove.getPositionReference();
+	agentDirection = normalize(*goalPosition - *agentToMove.getPositionReference());
+	agentDirection = normalize(agentDirection);
 
 	/*
 	Calculates the actuall movement direction vector based on the list
@@ -40,8 +41,7 @@ std::vector<StaticEntity> steerTo(Agent &agentToMove, sf::Vector2f* goalPosition
 	{
 		for (int i = 0; i <= detectedPoints.size() - 1; ++i)
 		{
-			agentDirection -= detectedPoints[i].getPosition();
-			
+			agentDirection -= normalize(detectedPoints[i].getPosition());
 			
 		}
 	}
@@ -50,13 +50,13 @@ std::vector<StaticEntity> steerTo(Agent &agentToMove, sf::Vector2f* goalPosition
 	/*
 	Normalizes the final vector to avoid a bug where the AI teleports to the end point.
 	*/
-	if (angleBetweenVectors(*goalPosition - *agentToMove.getPositionReference(), agentDirection) > 90 && angleBetweenVectors(*goalPosition - *agentToMove.getPositionReference(), agentDirection) <= 180)
+	if (angleBetweenVectors(normalize(*goalPosition - *agentToMove.getPositionReference()), agentDirection) > 90 && angleBetweenVectors(normalize(*goalPosition - *agentToMove.getPositionReference()), agentDirection) <= 180)
 	{
-		rotateCounterClockwise(agentDirection, angleBetweenVectors(*goalPosition - *agentToMove.getPositionReference(), agentDirection) - 90);
+		rotateCounterClockwise(agentDirection, angleBetweenVectors(normalize(*goalPosition - *agentToMove.getPositionReference()), agentDirection) - 85);
 	}
-	else if (angleBetweenVectors(*goalPosition - *agentToMove.getPositionReference(), agentDirection) >= 180 && angleBetweenVectors(*goalPosition - *agentToMove.getPositionReference(), agentDirection) < 270)
+	else if (angleBetweenVectors(normalize(*goalPosition - *agentToMove.getPositionReference()), agentDirection) > 180 && angleBetweenVectors(normalize(*goalPosition - *agentToMove.getPositionReference()), agentDirection) <= 270)
 	{
-		rotateCounterClockwise(agentDirection, angleBetweenVectors(*goalPosition - *agentToMove.getPositionReference(), agentDirection) + 90);
+		rotateCounterClockwise(agentDirection, angleBetweenVectors(normalize(*goalPosition - *agentToMove.getPositionReference()), agentDirection) + 85);
 	}
 	agentDirection = normalize(agentDirection);
 	
@@ -82,10 +82,8 @@ std::vector<StaticEntity> steerTo(Agent &agentToMove, sf::Vector2f* goalPosition
 	agentToMove.getDirectionReference()->y = agentDirection.y;
 	
 	/*
-	End of direction vector rotation and position.
+	Returns for the list of detected obsticles for visualization
 	*/
-
-	
 	return detectedPoints;
 
 }
