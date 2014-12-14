@@ -25,13 +25,17 @@ class Agent
 {
 private:
 	sf::Vector2f position;
-
+	sf::Vector2f direction;
+	sf::RectangleShape directionVector;
 	sf::CircleShape shape;
+
 public:
-	Agent(int radious, float x, float y);
+	Agent(int radious, float x, float y, float r, float g, float b);
 	~Agent();
 
-	sf::CircleShape getShape();
+	sf::CircleShape* getShape();
+	sf::RectangleShape* getDirectionShape();
 	sf::Vector2f* getPositionReference();
+	sf::Vector2f* getDirectionReference();
 };
 

@@ -17,11 +17,15 @@ std::vector<StaticEntity> staticEntities;
 
 int main(int argc, char* argv[]) {
 	sf::RenderWindow App(sf::VideoMode(800, 600), "myproject");
-	
+	/*
+	FPS LIMITER
+	*/
+	App.setFramerateLimit(60);
+
 	/*
 	Creates the aiAgent witha raious of 10 and initial position of x-10, y-10.
 	*/
-	Agent aiAgent(10, 10, 10);
+	Agent aiAgent(10, 10, 10, 240, 0,0);
 
 	/*
 	Temporary target for the agent to try and get to.
@@ -48,7 +52,7 @@ int main(int argc, char* argv[]) {
 	
 	In this case it is used to parse a multi argumented method to the Thread constructor.
 	*/
-	sf::Thread steerThread(std::bind(&steerTo, aiAgent.getPositionReference(), &a, staticEntities));
+	//sf::Thread steerThread(std::bind(&steerTo, aiAgent.getPositionReference(), &a, staticEntities));
 	
 
 	while (App.isOpen()) {
@@ -62,23 +66,38 @@ int main(int argc, char* argv[]) {
 		/*
 		Launches the steerThread beggining the antigravity movement calculations.
 		*/
-		steerThread.launch();
+		//steerThread.launch();
+
+		
 
 		/*
 		While loop for testing and debugging.
 		*/
 		while (aiAgent.getPositionReference()->x != a.x && aiAgent.getPositionReference()->y != a.y)
 		{
+			std::vector<StaticEntity> detectionVectorsSource = steerTo(aiAgent, &a, staticEntities);
+			if (detectionVectorsSource.size() == 0){}
+			else
+			{
+				for (int i = 0; i <= detectionVectorsSource.size() - 1; ++i)
+				{
+					sf::RectangleShape detectedDot(sf::Vector2f(10, 10));
+					detectedDot.setPosition(detectionVectorsSource[i].getPosition());
+					detectedDot.setFillColor(sf::Color(0, 240, 0));
+					App.draw(detectedDot);
+				}
+			}
 			
+
 			for(int i = 0; i <= staticEntities.size() - 1; ++i)
 			{
 				App.draw(staticEntities[i].getShape());
-				
 			}
-			App.draw(aiAgent.getShape());			
+			App.draw(*aiAgent.getShape());			
+			App.draw(*aiAgent.getDirectionShape());
 
-			std::cout << aiAgent.getPositionReference()->x << std::endl;
-			std::cout << aiAgent.getPositionReference()->y << std::endl;
+			//std::cout << aiAgent.getPositionReference()->x << std::endl;
+			//std::cout << aiAgent.getPositionReference()->y << std::endl;
 			App.display();
 			App.clear();
 		}
@@ -86,7 +105,7 @@ int main(int argc, char* argv[]) {
 		/*
 		Terminates the steerThread limiting the performance hit after the steering operation is finished.
 		*/
-		steerThread.terminate();
+		//steerThread.terminate();
 		
 		/*
 		Post steer while loop draw. Used in the case when the agent reaches
@@ -99,7 +118,7 @@ int main(int argc, char* argv[]) {
 		{
 			App.draw(staticEntities[i].getShape());
 		}
-		App.draw(aiAgent.getShape());
+		App.draw(*aiAgent.getShape());
 
 		App.display();
 		App.clear();
