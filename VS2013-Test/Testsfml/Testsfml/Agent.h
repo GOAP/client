@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Steering.h"
+
 /*
 Headder file for the class describing the AI agent.
 
@@ -29,9 +31,13 @@ private:
 	sf::RectangleShape directionVector;
 	sf::CircleShape shape;
 
+	
+
 public:
 	Agent(int radious, float x, float y, float r, float g, float b);
 	~Agent();
+
+	Steering steerAi;
 
 	sf::CircleShape* getShape();
 	sf::RectangleShape* getDirectionShape();

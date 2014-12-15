@@ -19,6 +19,8 @@ Agent::Agent(int radious, float x, float y, float r, float g, float b)
 
 	position = sf::Vector2f(x, y);
 	direction = sf::Vector2f(0, 0);
+
+	steerAi = Steering(&position, &direction);
 }
 
 
@@ -38,6 +40,9 @@ sf::CircleShape* Agent::getShape()
 }
 sf::RectangleShape* Agent::getDirectionShape()
 {
+	
+	directionVector.setRotation(-angleBetweenVectors(direction, sf::Vector2f(1, 0)));
+	directionVector.setPosition(position);
 	return &directionVector;
 }
 

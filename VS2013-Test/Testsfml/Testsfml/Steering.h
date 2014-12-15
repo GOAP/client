@@ -4,15 +4,24 @@
 #include <vector>
 #include "StaticEntity.h"
 #include "SfVectorMath.h"
-#include "Agent.h"
 
 class Steering
 {
 private:
-	friend std::vector<StaticEntity> steerTo(Agent &agentToMove, sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfEntities);
+	sf::Vector2f* agentPosition;
+	sf::Vector2f* agentDirection;
+
+	std::vector<StaticEntity> detectedPoints;
+	
 
 public:
 	Steering();
+	Steering(sf::Vector2f* sentPosition, sf::Vector2f* sentDirection);
 	~Steering();
+
+	//NewVersion
+	std::vector<StaticEntity> steerTo(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics);
+
+	//std::vector<StaticEntity> steerTo(Agent &agentToMove, sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfEntities);
 };
 

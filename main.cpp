@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
 		*/
 		while (aiAgent.getPositionReference()->x != a.x && aiAgent.getPositionReference()->y != a.y)
 		{
-			std::vector<StaticEntity> detectionVectorsSource = steerTo(aiAgent, &a, staticEntities);
+			std::vector<StaticEntity> detectionVectorsSource = aiAgent.steerAi.steerTo(&a, staticEntities);
 			if (detectionVectorsSource.size() == 0){}
 			else
 			{
