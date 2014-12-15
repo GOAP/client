@@ -25,7 +25,7 @@ std::vector<StaticEntity> Steering::steerTo(sf::Vector2f* goalPosition, std::vec
 	Gets the direction vector from the agent to the final goal.
 	*/
 	//*agentDirection += normalize(*goalPosition - *agentPosition);
-	*agentDirection = normalize(*goalPosition - *agentPosition);
+	*agentDirection += normalize(*goalPosition - *agentPosition);
 
 	if (detectedPoints.empty()){}
 		else

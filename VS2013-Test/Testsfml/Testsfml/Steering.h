@@ -13,7 +13,7 @@ private:
 
 	std::vector<StaticEntity> detectedPoints;
 	
-	int detectionRange = 40;
+	int detectionRange = 50;
 
 public:
 	Steering();
