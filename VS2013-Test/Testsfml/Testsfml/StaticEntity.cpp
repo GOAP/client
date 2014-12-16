@@ -1,5 +1,14 @@
 #include "StaticEntity.h"
 
+bool operator==(const StaticEntity &left, const StaticEntity &right)
+{
+	return left.position.x == right.position.x && left.position.y == right.position.x;
+}
+
+bool operator!=(const StaticEntity &left, const StaticEntity &right)
+{
+	return !(left.position.x == right.position.x && left.position.y == right.position.x);
+}
 
 StaticEntity::StaticEntity(int radious, float x, float y)
 {

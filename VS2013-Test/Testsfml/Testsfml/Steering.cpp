@@ -14,17 +14,17 @@ Steering::~Steering()
 
 std::vector<StaticEntity> Steering::steerTo(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics)
 {
+
 	//Detects obsticles around the AI
 	for (int i = 0; i <= listOfStatics.size() - 1; ++i)
-	{	
+	{
 		if (distanceBetweenPoints(listOfStatics[i].getPosition(), *agentPosition) <= detectionRange)
-			detectedPoints.push_back(listOfStatics[i]);		
+			detectedPoints.push_back(listOfStatics[i]);
 	}
 
 	/*
 	Gets the direction vector from the agent to the final goal.
 	*/
-	//*agentDirection += normalize(*goalPosition - *agentPosition);
 	*agentDirection += normalize(*goalPosition - *agentPosition);
 
 	if (detectedPoints.empty()){}
