@@ -69,13 +69,13 @@ int main(int argc, char* argv[]) {
 		//steerThread.launch();
 
 		
-
+		                                                                                                                 
 		/*
 		While loop for testing and debugging.
 		*/
 		while (aiAgent.getPositionReference()->x != a.x && aiAgent.getPositionReference()->y != a.y)
 		{
-			std::vector<StaticEntity> detectionVectorsSource = aiAgent.steerAi.steerTo(&a, staticEntities);
+			std::vector<StaticEntity> detectionVectorsSource = aiAgent.steerAi.avoid(&a, staticEntities);
 			if (detectionVectorsSource.size() == 0){}
 			else
 			{
@@ -96,8 +96,6 @@ int main(int argc, char* argv[]) {
 			App.draw(*aiAgent.getShape());			
 			App.draw(*aiAgent.getDirectionShape());
 
-			//std::cout << aiAgent.getPositionReference()->x << std::endl;
-			//std::cout << aiAgent.getPositionReference()->y << std::endl;
 			App.display();
 			App.clear();
 		}

@@ -2,7 +2,7 @@
 
 bool operator==(const StaticEntity &left, const StaticEntity &right)
 {
-	return left.position.x == right.position.x && left.position.y == right.position.x;
+	return left.position.x == right.position.x && left.position.y == right.position.y;
 }
 
 bool operator!=(const StaticEntity &left, const StaticEntity &right)

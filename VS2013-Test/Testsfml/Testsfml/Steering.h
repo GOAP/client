@@ -15,14 +15,19 @@ private:
 	
 	int detectionRange = 50;
 
+	bool match(StaticEntity toMatch, std::vector<StaticEntity> from);
+	
+	std::vector<StaticEntity> relaventList(std::vector<StaticEntity> from, sf::Vector2f alignment);
+
+
 public:
 	Steering();
 	Steering(sf::Vector2f* sentPosition, sf::Vector2f* sentDirection);
 	~Steering();
 
 	//NewVersion
-	std::vector<StaticEntity> steerTo(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics);
+	std::vector<StaticEntity> avoid(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics);
 
-	//std::vector<StaticEntity> steerTo(Agent &agentToMove, sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfEntities);
+	std::vector<StaticEntity> steerTo(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics);
 };
 
