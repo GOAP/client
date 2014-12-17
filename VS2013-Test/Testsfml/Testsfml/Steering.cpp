@@ -56,13 +56,41 @@ std::vector<StaticEntity> Steering::avoid(sf::Vector2f* goalPosition, std::vecto
 	//Gets rid of duplicates.
 	detectedPoints.erase(std::unique(detectedPoints.begin(), detectedPoints.end()), detectedPoints.end());
 
+	//Get rid of points behind or too far away from the agent.
 	detectedPoints = relaventList(detectedPoints, alignmentVector);
 
 	for (int i = 0; i <= detectedPoints.size() - 1 && !detectedPoints.empty(); i++)
 	{
-		float tempDistance = distanceBetweenPoints(*agentPosition, detectedPoints[i].getPosition());
-		sf::Vector2f objectDirection = rotateCounterClockwise(normalize(detectedPoints[i].getPosition()), -tan(detectionRange/tempDistance));
-		*agentDirection -= normalize(objectDirection);
+		float tempDistance = distanceBetweenPoints(detectedPoints[i].getPosition(), *agentPosition);
+		sf::Vector2f objectDirection = rotateCounterClockwise(normalize(detectedPoints[i].getPosition()), -tan(tempDistance / detectionRange));
+		
+		if (alignmentVector.x <= 0 && alignmentVector.y <= 0)
+		{
+			*agentDirection -= normalize(detectedPoints[i].getPosition() - *agentDirection);//normalize(objectDirection);
+			float tempAngle = angleBetweenVectors(alignmentVector, *agentDirection);
+			*agentDirection = rotateCounterClockwise(*agentDirection, tempAngle);
+		}
+		if (alignmentVector.x >= 0 && alignmentVector.y >= 0)
+		{
+			*agentDirection -= -normalize(*agentDirection - detectedPoints[i].getPosition());//normalize(objectDirection);
+		}
+		if (alignmentVector.x >= 0 && alignmentVector.y <= 0)
+		{
+			float tempAngle = angleBetweenVectors(alignmentVector, normalize(detectedPoints[i].getPosition() - *agentPosition));
+			if (tempAngle < 180)
+				*agentDirection -= normalize(objectDirection);// -normalize(*agentDirection - detectedPoints[i].getPosition());
+			if (tempAngle > 180)
+				*agentDirection -= -normalize(objectDirection);// normalize(*agentDirection - detectedPoints[i].getPosition());
+		}
+		if (alignmentVector.x <= 0 && alignmentVector.y >= 0)
+		{
+			float tempAngle = angleBetweenVectors(alignmentVector, normalize(detectedPoints[i].getPosition() - *agentPosition));
+			if (tempAngle < 180)
+				*agentDirection -= -normalize(objectDirection);// -normalize(*agentDirection - detectedPoints[i].getPosition());
+			if (tempAngle > 180)
+				*agentDirection -= normalize(objectDirection);// normalize(*agentDirection - detectedPoints[i].getPosition());
+		}
+	
 	}
 
 	*agentDirection += alignmentVector;

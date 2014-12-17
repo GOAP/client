@@ -25,12 +25,12 @@ int main(int argc, char* argv[]) {
 	/*
 	Creates the aiAgent witha raious of 10 and initial position of x-10, y-10.
 	*/
-	Agent aiAgent(10, 10, 500, 240, 0, 0);
+	Agent aiAgent(10, 700,500, 240, 0, 0);
 
 	/*
 	Temporary target for the agent to try and get to.
 	*/
-	sf::Vector2f a(700, 10);
+	sf::Vector2f a(10,10);
 		
 	//Seed random number generator.
 	srand(time(NULL));
@@ -67,8 +67,6 @@ int main(int argc, char* argv[]) {
 		Launches the steerThread beggining the antigravity movement calculations.
 		*/
 		//steerThread.launch();
-
-		
 		                                                                                                                 
 		/*
 		While loop for testing and debugging.
