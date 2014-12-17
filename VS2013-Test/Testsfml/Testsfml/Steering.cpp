@@ -21,11 +21,9 @@ std::vector<StaticEntity> Steering::relaventList(std::vector<StaticEntity> from,
 		for (int i = 0; i <= from.size() - 1 && !from.empty(); i++)
 		{
 			float tempAngle = angleBetweenVectors(normalize(from[i].getPosition() - *agentPosition), normalize(alignment));
-			std::cout << tempAngle << std::endl;
 			if (tempAngle < 270 && tempAngle > 90 || distanceBetweenPoints(from[i].getPosition(), *agentPosition) > detectionRange + detectionRange/2)
 			{
 				from.erase(from.begin() + i);
-				std::cout << "erased" << std::endl;
 			}
 		}
 		return from;
@@ -48,7 +46,7 @@ Steering::~Steering()
 std::vector<StaticEntity> Steering::avoid(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics)
 {
 	sf::Vector2f alignmentVector = normalize(*goalPosition - *agentPosition);
-
+	
 	for (int i = 0; i <= listOfStatics.size() - 1; i++)
 	{
 		if (distanceBetweenPoints(*agentPosition, listOfStatics[i].getPosition()) < detectionRange && match(listOfStatics[i], detectedPoints))
@@ -56,7 +54,6 @@ std::vector<StaticEntity> Steering::avoid(sf::Vector2f* goalPosition, std::vecto
 	}
 
 	//Gets rid of duplicates.
-	//std::sort(detectedPoints.begin(), detectedPoints.end());
 	detectedPoints.erase(std::unique(detectedPoints.begin(), detectedPoints.end()), detectedPoints.end());
 
 	detectedPoints = relaventList(detectedPoints, alignmentVector);
@@ -64,14 +61,13 @@ std::vector<StaticEntity> Steering::avoid(sf::Vector2f* goalPosition, std::vecto
 	for (int i = 0; i <= detectedPoints.size() - 1 && !detectedPoints.empty(); i++)
 	{
 		float tempDistance = distanceBetweenPoints(*agentPosition, detectedPoints[i].getPosition());
-		sf::Vector2f objectDirection = rotateCounterClockwise(normalize(detectedPoints[i].getPosition()), tan(-tempDistance/detectionRange));
-		*agentDirection -= normalize(objectDirection);//normalize(detectedPoints[i].getPosition());
+		sf::Vector2f objectDirection = rotateCounterClockwise(normalize(detectedPoints[i].getPosition()), -tan(detectionRange/tempDistance));
+		*agentDirection -= normalize(objectDirection);
 	}
 
 	*agentDirection += alignmentVector;
 	*agentDirection += *agentDirection;
 	*agentDirection = normalize(*agentDirection);
-	//*agentDirection = rotateCounterClockwise(*agentDirection, angleBetweenVectors(alignmentVector, *agentDirection) * 2);
 	
 	//Movement Propper
 	agentPosition->x += 1 * agentDirection->x;
