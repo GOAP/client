@@ -54,6 +54,8 @@ private:
 
 	friend sf::Vector2f rotateCounterClockwise(sf::Vector2f& vector, float angle);
 
+	friend float signedAngleBetweenVectors(sf::Vector2f& vector1, sf::Vector2f& vector2);
+
 	friend float angleBetweenVectors(sf::Vector2f& vector1, sf::Vector2f& vector2);
 
 	friend float distanceBetweenPoints(sf::Vector2f& vector1, sf::Vector2f& vector2);

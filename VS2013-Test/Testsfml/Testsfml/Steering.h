@@ -26,9 +26,6 @@ public:
 	Steering(sf::Vector2f* sentPosition, sf::Vector2f* sentDirection);
 	~Steering();
 
-	//NewVersion
-	std::vector<StaticEntity> avoid(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics);
-
-	std::vector<StaticEntity> steerTo(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics);
+	std::vector<StaticEntity> collisionAvoidTo(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics);
 };
 
