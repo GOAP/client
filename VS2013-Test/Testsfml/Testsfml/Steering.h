@@ -15,11 +15,11 @@ private:
 	std::vector<StaticEntity> detectedPoints;
 	
 	int detectionRange = 50;
-
-	bool match(StaticEntity toMatch, std::vector<StaticEntity> from);
 	
 	std::vector<StaticEntity> relaventList(std::vector<StaticEntity> from, sf::Vector2f alignment);
 
+	//Private utility method
+	bool match(StaticEntity toMatch, std::vector<StaticEntity> from);
 
 public:
 	Steering();
