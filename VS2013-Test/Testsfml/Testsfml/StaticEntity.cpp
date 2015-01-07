@@ -15,6 +15,10 @@ StaticEntity::StaticEntity(int radious, float x, float y)
 	position.x = x;
 	position.y = y;
 
+	//Compensate for corner drawing
+	publicPosition.x = x + radious;
+	publicPosition.y = y + radious;
+
 	shape = sf::CircleShape(radious);
 }
 
@@ -25,12 +29,12 @@ StaticEntity::~StaticEntity()
 
 sf::CircleShape StaticEntity::getShape()
 {
-	shape.setPosition(position);
+	shape.setPosition(position);	
 	return shape;
 }
 
 sf::Vector2f StaticEntity::getPosition()
 {
-	return position;
+	return publicPosition;
 }
 

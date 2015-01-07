@@ -45,6 +45,7 @@ Steering::~Steering()
 
 std::vector<StaticEntity> Steering::collisionAvoidTo(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics)
 {
+	//Converts alignmentVeco
 	sf::Vector2f alignmentVector = normalize(*goalPosition - *agentPosition);
 
 	*agentDirection = alignmentVector;
