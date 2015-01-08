@@ -1,6 +1,6 @@
 #include "Steering.h"
 
-bool Steering::match(StaticEntity toMatch, std::vector<StaticEntity> from)
+bool Steering::isNotMatch(StaticEntity toMatch, std::vector<StaticEntity> from)
 {
 	if (from.empty())
 		return true;
@@ -45,31 +45,43 @@ Steering::~Steering()
 
 std::vector<StaticEntity> Steering::collisionAvoidTo(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics)
 {
-	//Converts alignmentVeco
+	//Normalizes alignemntVector in order to avoid a teleportation glitch.
 	sf::Vector2f alignmentVector = normalize(*goalPosition - *agentPosition);
 
 	*agentDirection = alignmentVector;
 
+	//For loop to find all static entties in the required range.
 	for (int i = 0; i <= listOfStatics.size() - 1; i++)
 	{
-		if (distanceBetweenPoints(*agentPosition, listOfStatics[i].getPosition()) < detectionRange && match(listOfStatics[i], detectedPoints))
+		//isNotMatch() method ignores already added entities.
+		if (distanceBetweenPoints(*agentPosition, listOfStatics[i].getPosition()) < detectionRange && isNotMatch(listOfStatics[i], detectedPoints))
 			detectedPoints.push_back(listOfStatics[i]);
 	}
 
+	//Removes entities that are consirered irelevant from the list.(ones that are behind the AI agent).
 	detectedPoints = relaventList(detectedPoints, alignmentVector);
 
 	for (int i = 0; i <= detectedPoints.size() - 1 && !detectedPoints.empty(); i++)
 	{
+		//Ajusts the movement angle based on the agle between the alignemnt vector and the line between the agent and the entity.
+		/*
+		Simple discription:
+		Smaller the angle between the two the larger the initial chang will be. 
+		0 degrees will produce a 90 degree change.
+		*/
 		float tempAngle = signedAngleBetweenVectors(alignmentVector, normalize(detectedPoints[i].getPosition() - *agentPosition));
 		*agentDirection = rotateCounterClockwise(*agentDirection, 2 * (-90+tempAngle));
 	}
 
+	//Finalizes the agent direction to be used when moving the agent.
 	*agentDirection += alignmentVector;
 	*agentDirection = normalize(*agentDirection);
 
+	//Changes the final agent position based on line formula.
 	agentPosition->x += 1 * agentDirection->x;
 	agentPosition->y += 1 * agentDirection->y;
 
+	//Returns the detected points to be rendered for fizualization. 
 	return detectedPoints;
 }
 

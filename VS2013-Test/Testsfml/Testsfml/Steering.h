@@ -19,7 +19,7 @@ private:
 	std::vector<StaticEntity> relaventList(std::vector<StaticEntity> from, sf::Vector2f alignment);
 
 	//Private utility method
-	bool match(StaticEntity toMatch, std::vector<StaticEntity> from);
+	bool isNotMatch(StaticEntity toMatch, std::vector<StaticEntity> from);
 
 public:
 	Steering();
