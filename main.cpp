@@ -16,7 +16,7 @@ std::vector<StaticEntity> staticEntities;
 
 
 int main(int argc, char* argv[]) {
-	sf::RenderWindow App(sf::VideoMode(800, 600), "myproject");
+	sf::RenderWindow App(sf::VideoMode(800, 600), "GOAP client");
 	/*
 	FPS LIMITER
 	*/
