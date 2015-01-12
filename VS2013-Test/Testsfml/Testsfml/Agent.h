@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Steering.h"
+#include "SfVectorMath.h"
 
 /*
 Headder file for the class describing the AI agent.
