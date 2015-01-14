@@ -6,7 +6,6 @@
 #include <goap/plan.hpp>
 
 #include "agent.hpp"
-#include "stub.hpp"
 
 namespace Game {
     class State {
