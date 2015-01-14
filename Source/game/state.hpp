@@ -46,7 +46,10 @@ namespace Game {
 
                 std::cout << "Agent at " << position[0] << ", " << position[1] << std::endl;
 
-                if(this->agent.GetX() == step.GetX() && this->agent.GetY() == step.GetY()) 
+                float diffX = this->agent.GetX() - step.GetX();
+                float diffY = this->agent.GetY() - step.GetY();
+
+                if(diffX > -2 && diffX < 2 && diffY > -2 && diffY < 2) 
                     return true;
 
             } else if(step.ID == "pickup") {
