@@ -11,7 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\main.cpp" />
+    <ClInclude Include="..\..\..\Source\Agent.h" />
+    <ClInclude Include="..\..\..\Source\SfVectorMath.h" />
+    <ClInclude Include="..\..\..\Source\StaticEntity.h" />
+    <ClInclude Include="..\..\..\Source\Steering.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Source\Agent.cpp" />
+    <ClCompile Include="..\..\..\Source\main.cpp" />
+    <ClCompile Include="..\..\..\Source\SfVectorMath.cpp" />
+    <ClCompile Include="..\..\..\Source\StaticEntity.cpp" />
+    <ClCompile Include="..\..\..\Source\Steering.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{07C56128-9C22-4768-AEEF-B62E12448D7E}</ProjectGuid>
@@ -51,7 +61,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\user\Desktop\SFML-2.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\CUstuff\2NDYEAR\206CDE\client\VS2013-Test\Testsfml\Testsfml;C:\Users\user\Desktop\SFML-2.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
