@@ -42,28 +42,16 @@ NB: The answer is relative to the 'vector1' argument!
 float distanceBetweenPoints(Vector2f vector1, Vector2f vector2);
 Returns a float describing the distance between the two vectors/points.
 */
+float dotProductOf(sf::Vector2f& vector1, sf::Vector2f& vector2);
 
-class SfVectorMath
-{
-private:
-	friend float dotProductOf(sf::Vector2f& vector1, sf::Vector2f& vector2);
+float magnitudeOf(sf::Vector2f vector);
 
-	friend float magnitudeOf(sf::Vector2f& vector);
+sf::Vector2f normalize(sf::Vector2f vector);
 
-	friend sf::Vector2f normalize(sf::Vector2f& vector);
+sf::Vector2f rotateCounterClockwise(sf::Vector2f vector, float angle);
 
-	friend sf::Vector2f rotateCounterClockwise(sf::Vector2f& vector, float angle);
+float signedAngleBetweenVectors(sf::Vector2f vector1, sf::Vector2f vector2);
 
-	friend float signedAngleBetweenVectors(sf::Vector2f& vector1, sf::Vector2f& vector2);
+float angleBetweenVectors(sf::Vector2f vector1, sf::Vector2f vector2);
 
-	friend float angleBetweenVectors(sf::Vector2f& vector1, sf::Vector2f& vector2);
-
-	friend float distanceBetweenPoints(sf::Vector2f& vector1, sf::Vector2f& vector2);
-
-public:	
-	SfVectorMath();
-	~SfVectorMath();
-	
-	
-};
-
+float distanceBetweenPoints(sf::Vector2f vector1, sf::Vector2f vector2);
