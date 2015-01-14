@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
     state.locationProvider = locationProvider;
 
     // Prepare actions.
-    move.To(700, 10);
+    move.To(300, 40);
 
     // Add actions to plan.
     plan.Add(move);
@@ -133,6 +133,7 @@ int main(int argc, char* argv[]) {
             App.draw(staticEntities[i].getShape());
         }
         App.draw(*aiAgent.getShape());
+        App.draw(*aiAgent.getDirectionShape());
 
         App.display();
         App.clear();
