@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <goap/plan.hpp>
+#include "goap/plan.hpp"
 
 #include "agent.hpp"
 
