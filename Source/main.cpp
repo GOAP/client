@@ -4,10 +4,10 @@
 #include <time.h>
 #include <random>
 #include <functional>
-#include "VS2013-Test\Testsfml\Testsfml\SfVectorMath.h"
-#include "VS2013-Test\Testsfml\Testsfml\StaticEntity.h"
-#include "VS2013-Test\Testsfml\Testsfml\Agent.h"
-#include "VS2013-Test\Testsfml\Testsfml\Steering.h"
+#include "SfVectorMath.h"
+#include "StaticEntity.h"
+#include "Agent.h"
+#include "Steering.h"
 
 /*
 GLOBAL CONTAINER HOLDING ALL STATIC ENTITIES
