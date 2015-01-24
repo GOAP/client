@@ -32,8 +32,6 @@ private:
 	sf::RectangleShape directionVector;
 	sf::CircleShape shape;
 
-	
-
 public:
 	Agent(int radious, float x, float y, float r, float g, float b);
 	~Agent();

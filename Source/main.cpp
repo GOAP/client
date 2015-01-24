@@ -19,7 +19,7 @@ GLOBAL CONTAINER HOLDING ALL STATIC ENTITIES
 */
 std::vector<StaticEntity> staticEntities;
 /*
-Creates the aiAgent witha raious of 10 and initial position of x-10, y-10.
+Creates the aiAgent with a raious of 10 and initial position of x-10, y-10.
 */
 Agent aiAgent(10, 10,500, 240, 0, 0);
 
