@@ -8,6 +8,7 @@
 #include "StaticEntity.h"
 #include "Agent.h"
 #include "Steering.h"
+#include "StateMachine.h"
 
 // GOAP
 #include "goap/action.hpp"
@@ -22,6 +23,11 @@ std::vector<StaticEntity> staticEntities;
 Creates the aiAgent with a raious of 10 and initial position of x-10, y-10.
 */
 Agent aiAgent(10, 10,500, 240, 0, 0);
+
+/*
+Initializes the world with a default state.
+*/
+StateMachine worldState;
 
 void movementProvider(float x, float y) {
     sf::Vector2f target(x, y);
@@ -84,8 +90,14 @@ int main(int argc, char* argv[]) {
             if (Event.type == sf::Event::Closed)
                 App.close();
         }
+		
+		//UPDATE STATE NEEDS TO BE CALLED EVERY FRAME
+		worldState.updateState();
 
-        if(plan.Length() != 0) {
+		//FOR TESTING PURPOSES DISPLAYING FUNCTIONALITY OF GET TIME
+		float a = worldState.getCurrentTime();
+        
+		if(plan.Length() != 0) {
             if(state.RunStep(plan[0])) {
                 std::cout << "master: Action completed." << std::endl;
                 plan.Pop();
