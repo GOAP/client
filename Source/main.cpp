@@ -10,10 +10,15 @@
 #include "Steering.h"
 #include "StateMachine.h"
 
+//MAP LOADER
+#include "TmxLoader.h"
+
 // GOAP
 #include "goap/action.hpp"
 #include "goap/plan.hpp"
 #include "game/state.hpp"
+
+TmxLoader loaderObject;
 
 /*
 GLOBAL CONTAINER HOLDING ALL STATIC ENTITIES
@@ -48,7 +53,7 @@ int main(int argc, char* argv[]) {
     FPS LIMITER
     */
     App.setFramerateLimit(60);
-
+	
 
     //Seed random number generator.
     srand(time(NULL));
@@ -73,14 +78,18 @@ int main(int argc, char* argv[]) {
     std::cout << "<<<< PLAN >>>>" << std::endl;
     plan.Show();
 
-    /*
-    For loop populates world with static entities.
-    */
-    for (int i = 0; i <= 15; ++i)
-    {
-        staticEntities.push_back(StaticEntity(20, rand() % 600, rand() % 800));
-    }
+	loaderObject.loadFile("MapDataComplete.xml");
+	staticEntities = *loaderObject.getStatics();
 
+	////OLD CODE============================================
+ //   /*
+ //   For loop populates world with static entities.
+ //   */
+ //   for (int i = 0; i <= 15; ++i)
+ //   {
+ //       staticEntities.push_back(StaticEntity(20, rand() % 600, rand() % 800));
+ //   }
+	////OLD CODE==============================================================
     // Main game loop.
     std::cout << "<<<< ENTERING MAIN LOOP >>>>" << std::endl;
     while (App.isOpen()) {

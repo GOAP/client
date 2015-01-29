@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>tinyxml2.redist</id>
+    <version>2.1.0</version>
+    <title>TinyXML-2 Redist</title>
+    <authors>Lee Thomason</authors>
+    <owners>Lee Thomason</owners>
+    <licenseUrl>http://www.zlib.net/zlib_license.html</licenseUrl>
+    <projectUrl>https://github.com/leethomason/tinyxml2</projectUrl>
+    <iconUrl>http://www.grinninglizard.com/tinyxml2/TinyXML2_small.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Redistributable components for package 'tinyxml2'. This package should only be installed as a dependency. 
+(This is not the package you are looking for).
+
+Builds provided for VS2013</description>
+    <summary>Redistributable components for for package 'tinyxml2'</summary>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>XML native CoApp nativepackage</tags>
+  </metadata>
+</package>

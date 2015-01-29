@@ -16,6 +16,7 @@
     <ClInclude Include="..\..\..\Source\StateMachine.h" />
     <ClInclude Include="..\..\..\Source\StaticEntity.h" />
     <ClInclude Include="..\..\..\Source\Steering.h" />
+    <ClInclude Include="..\..\..\Source\TmxLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Agent.cpp" />
@@ -23,6 +24,9 @@
     <ClCompile Include="..\..\..\Source\SfVectorMath.cpp" />
     <ClCompile Include="..\..\..\Source\StaticEntity.cpp" />
     <ClCompile Include="..\..\..\Source\Steering.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{07C56128-9C22-4768-AEEF-B62E12448D7E}</ProjectGuid>
@@ -82,5 +86,7 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\tinyxml2.redist.2.1.0\build\native\tinyxml2.redist.targets" Condition="Exists('..\packages\tinyxml2.redist.2.1.0\build\native\tinyxml2.redist.targets')" />
+    <Import Project="..\packages\tinyxml2.2.1.0\build\native\tinyxml2.targets" Condition="Exists('..\packages\tinyxml2.2.1.0\build\native\tinyxml2.targets')" />
   </ImportGroup>
 </Project>
