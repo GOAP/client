@@ -12,8 +12,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Source\Agent.h" />
+    <ClInclude Include="..\..\..\Source\Entity.h" />
+    <ClInclude Include="..\..\..\Source\Interactable.h" />
     <ClInclude Include="..\..\..\Source\SfVectorMath.h" />
     <ClInclude Include="..\..\..\Source\StateMachine.h" />
+    <ClInclude Include="..\..\..\Source\Static.h" />
     <ClInclude Include="..\..\..\Source\StaticEntity.h" />
     <ClInclude Include="..\..\..\Source\Steering.h" />
     <ClInclude Include="..\..\..\Source\TmxLoader.h" />

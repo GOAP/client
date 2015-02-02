@@ -29,7 +29,7 @@ Creates the aiAgent with a raious of 10 and initial position of x-10, y-10.
 */
 Agent aiAgent(10, 10,500, 240, 0, 0);
 
-/*
+/*	
 Initializes the world with a default state.
 */
 StateMachine worldState;
@@ -77,19 +77,11 @@ int main(int argc, char* argv[]) {
     // Print plan.
     std::cout << "<<<< PLAN >>>>" << std::endl;
     plan.Show();
-
+	
+	//Loads The Objects to static Entities;
 	loaderObject.loadFile("MapDataComplete.xml");
 	staticEntities = *loaderObject.getStatics();
 
-	////OLD CODE============================================
- //   /*
- //   For loop populates world with static entities.
- //   */
- //   for (int i = 0; i <= 15; ++i)
- //   {
- //       staticEntities.push_back(StaticEntity(20, rand() % 600, rand() % 800));
- //   }
-	////OLD CODE==============================================================
     // Main game loop.
     std::cout << "<<<< ENTERING MAIN LOOP >>>>" << std::endl;
     while (App.isOpen()) {
