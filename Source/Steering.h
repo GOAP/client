@@ -5,6 +5,7 @@
 #include <vector>
 #include "StaticEntity.h"
 #include "SfVectorMath.h"
+#include "Entity.h"
 
 class Steering
 {
@@ -12,20 +13,20 @@ private:
 	sf::Vector2f* agentPosition;
 	sf::Vector2f* agentDirection;
 
-	std::vector<StaticEntity> detectedPoints;
+	std::vector<Entity*> detectedPoints;
 	
 	int detectionRange = 50;
 	
-	std::vector<StaticEntity> relaventList(std::vector<StaticEntity> from, sf::Vector2f alignment);
+	std::vector<Entity*> relaventList(std::vector<Entity*> from, sf::Vector2f alignment);
 
 	//Private utility method
-	bool isNotMatch(StaticEntity toMatch, std::vector<StaticEntity> from);
+	bool isNotMatch(Entity toMatch, std::vector<Entity*> from);
 
 public:
 	Steering();
 	Steering(sf::Vector2f* sentPosition, sf::Vector2f* sentDirection);
 	~Steering();
 
-	std::vector<StaticEntity> collisionAvoidTo(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics);
+	std::vector<Entity*> collisionAvoidTo(sf::Vector2f* goalPosition, std::vector<Entity*> listOfStatics);
 };
 

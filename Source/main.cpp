@@ -23,7 +23,7 @@ TmxLoader loaderObject;
 /*
 GLOBAL CONTAINER HOLDING ALL STATIC ENTITIES
 */
-std::vector<StaticEntity> staticEntities;
+std::vector<Entity*> staticEntities;
 /*
 Creates the aiAgent with a raious of 10 and initial position of x-10, y-10.
 */
@@ -143,7 +143,7 @@ int main(int argc, char* argv[]) {
 
         for (int i = 0; i <= staticEntities.size() - 1; ++i)
         {
-            App.draw(staticEntities[i].getShape());
+            App.draw(staticEntities[i]->getSprite());
         }
         App.draw(*aiAgent.getShape());
         App.draw(*aiAgent.getDirectionShape());

@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 
-class Interactable : private Entity
+class Interactable : public Entity
 {
 private:
 	/*ADD INTERACTABLE SPECIFICSS*/

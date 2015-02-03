@@ -4,6 +4,10 @@
 
 class Entity
 {
+	friend bool operator==(const Entity &left, const Entity &right)
+	{
+		return left._position.x == right._position.x && left._position.y == right._position.y;
+	}
 protected: 
 	int _id;
 
@@ -14,7 +18,12 @@ protected:
 
 public: 
 	/*DRAW METHOD IMPLEMENT*/
-
+	sf::Sprite getSprite()
+	{
+		_sprite.setPosition(_position);
+		_sprite.setScale(0.5, 0.5);
+		return _sprite;
+	}
 	sf::Vector2f getPosition()
 	{
 		_publicPosition.x = _position.x + _sprite.getLocalBounds().height / 2;

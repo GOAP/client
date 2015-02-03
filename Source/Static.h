@@ -3,14 +3,15 @@
 #include <SFML/Graphics.hpp>
 
 
-class Static : private Entity
+class Static : public Entity
 {
 private:
 	/*ADD INTERACTABLE SPECIFICSS*/
 public:
 
-	Static(int id, float x, float y)
+	Static(int id, float x, float y, sf::Sprite sprite)
 	{
+		_sprite = sprite;
 		_position.x = x;
 		_position.y = y;
 

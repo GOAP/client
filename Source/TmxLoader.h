@@ -4,6 +4,8 @@
 #include <iostream>
 #include "StaticEntity.h"
 #include <vector>
+#include "Entity.h"
+#include "Static.h"
 
 using namespace std;
 using namespace tinyxml2;
@@ -11,7 +13,7 @@ using namespace tinyxml2;
 class TmxLoader
 {
 private: 
-	vector<StaticEntity> _statics;
+	vector<Entity*> _statics;
 public:
 
 	TmxLoader(){};
@@ -61,19 +63,53 @@ public:
 				cout << DataExtract2;
 			}
 		}
+		/*
+		LOAD ALL NECESARY ASSETS;
+		*/
+		sf::Texture* treeTexture = new sf::Texture();
+		sf::Texture* rockTexture = new sf::Texture();
+		sf::Texture* woodTexture = new sf::Texture();
 
+		treeTexture->loadFromFile("D:/CUstuff/2NDYEAR/206CDE/client/Assets/Tree.png");
+		rockTexture->loadFromFile("D:/CUstuff/2NDYEAR/206CDE/client/Assets/Stone.png");
+		woodTexture->loadFromFile("D:/CUstuff/2NDYEAR/206CDE/client/Assets/Wood.png");
+
+		sf::Sprite tree_;
+		sf::Sprite rock_;
+		sf::Sprite wood_;
+
+		tree_.setTexture(*treeTexture);
+		rock_.setTexture(*rockTexture);
+		wood_.setTexture(*woodTexture);
+
+		
+		
 		for (int i = 0; i < MapHeight; ++i)
 		{
 			for (int j = 0; j < MapWidth; ++j)
 			{
-				if (!ResourceData[i][j] == 0)
-				_statics.push_back(StaticEntity(10, j * 15, i * 15));
+				if (ResourceData[i][j] == 1)
+				{
+					Static temp(ResourceData[i][j], j * 15, i * 15, tree_);
+					_statics.push_back(&temp);
+				}
+				if (ResourceData[i][j] == 2)
+				{
+					Static temp(ResourceData[i][j], j * 15, i * 15, rock_);
+					_statics.push_back(&temp);
+				}	
+				if (ResourceData[i][j] == 3)
+				{
+					Static temp(ResourceData[i][j], j * 15, i * 15, wood_);
+					_statics.push_back(&temp);
+				}
+					
 			}
 		}
 
 	}
 
-	vector<StaticEntity>* getStatics()
+	vector<Entity*>* getStatics()
 	{
 		return &_statics;
 	}
