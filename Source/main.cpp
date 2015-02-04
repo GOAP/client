@@ -63,7 +63,15 @@ float* locationProvider() {
 
 int main(int argc, char* argv[]) {
     sf::RenderWindow App(sf::VideoMode(800, 600), "GOAP client");
-    /*
+	
+	
+	//========================================================================================
+	sf::RectangleShape a(sf::Vector2f(32 * 15, 32 * 15));
+	a.setFillColor(sf::Color::White);
+	//======================================================================================
+	
+	
+	/*
     FPS LIMITER
     */
     App.setFramerateLimit(60);
@@ -106,6 +114,8 @@ int main(int argc, char* argv[]) {
                 App.close();
         }
 		
+		App.draw(a);
+
 		//UPDATE STATE NEEDS TO BE CALLED EVERY FRAME
 		worldState.updateState();
 
