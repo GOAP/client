@@ -70,9 +70,9 @@ public:
 		sf::Texture* rockTexture = new sf::Texture();
 		sf::Texture* woodTexture = new sf::Texture();
 
-		treeTexture->loadFromFile("D:/CUstuff/2NDYEAR/206CDE/client/Assets/Tree.png");
-		rockTexture->loadFromFile("D:/CUstuff/2NDYEAR/206CDE/client/Assets/Stone.png");
-		woodTexture->loadFromFile("D:/CUstuff/2NDYEAR/206CDE/client/Assets/Wood.png");
+		treeTexture->loadFromFile("Assets/Tree.png");
+		rockTexture->loadFromFile("Assets/Stone.png");
+		woodTexture->loadFromFile("Assets/Wood.png");
 
 		sf::Sprite tree_;
 		sf::Sprite rock_;
@@ -90,18 +90,18 @@ public:
 			{
 				if (ResourceData[i][j] == 1)
 				{
-					Static temp(ResourceData[i][j], j * 15, i * 15, tree_);
-					_statics.push_back(&temp);
+					Static* temp = new Static(ResourceData[i][j], j * 15, i * 15, tree_);
+					_statics.push_back(temp);
 				}
 				if (ResourceData[i][j] == 2)
 				{
-					Static temp(ResourceData[i][j], j * 15, i * 15, rock_);
-					_statics.push_back(&temp);
+					Static* temp = new Static(ResourceData[i][j], j * 15, i * 15, rock_);
+					_statics.push_back(temp);
 				}	
 				if (ResourceData[i][j] == 3)
 				{
-					Static temp(ResourceData[i][j], j * 15, i * 15, wood_);
-					_statics.push_back(&temp);
+					Static* temp = new Static(ResourceData[i][j], j * 15, i * 15, wood_);
+					_statics.push_back(temp);
 				}
 					
 			}
