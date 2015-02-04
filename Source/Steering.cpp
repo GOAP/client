@@ -69,7 +69,7 @@ std::vector<Entity*> Steering::collisionAvoidTo(sf::Vector2f* goalPosition, std:
 		Smaller the angle between the two the larger the initial chang will be. 
 		0 degrees will produce a 90 degree change.
 		*/
-		float tempAngle = signedAngleBetweenVectors(alignmentVector, normalize(detectedPoints[i]->getPosition() - *agentPosition));
+		float tempAngle = signedAngleBetweenVectors(alignmentVector, normalize(detectedPoints[0]->getPosition() - *agentPosition));
 		*agentDirection = rotateCounterClockwise(*agentDirection, 2 * (-90+tempAngle));
 	}
 
