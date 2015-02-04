@@ -36,7 +36,21 @@ StateMachine worldState;
 
 void movementProvider(float x, float y) {
     sf::Vector2f target(x, y);
-    aiAgent.steerAi.collisionAvoidTo(&target, staticEntities);
+    auto printable = aiAgent.steerAi.collisionAvoidTo(&target, staticEntities);
+	if (printable.empty())
+	{
+		
+	}
+	else
+	{
+		for (int i = 0; i <= printable.size() - 1; ++i)
+		{
+			std::cout << printable[i]->getPosition().x << " , ";
+			std::cout << printable[i]->getPosition().y << std::endl;
+		}
+		std::cout << std::endl << std::endl << std::endl;
+	}
+	
 }
 
 float* locationProvider() {
@@ -68,7 +82,7 @@ int main(int argc, char* argv[]) {
     state.locationProvider = locationProvider;
 
     // Prepare actions.
-    move.To(300, 40);
+    move.To(600, 150);
 
     // Add actions to plan.
     plan.Add(move);

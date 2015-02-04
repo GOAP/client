@@ -21,13 +21,13 @@ public:
 	sf::Sprite getSprite()
 	{
 		_sprite.setPosition(_position);
-		_sprite.setScale(0.5, 0.5);
+		_sprite.setScale(0.15, 0.15);
 		return _sprite;
 	}
 	sf::Vector2f getPosition()
 	{
-		_publicPosition.x = _position.x + _sprite.getLocalBounds().height / 2;
-		_publicPosition.y = _position.y + _sprite.getLocalBounds().width / 2;
+		_publicPosition.x = _position.x + 15/ 2;
+		_publicPosition.y = _position.y + 15 / 2;
 		
 		return _publicPosition;
 	}
