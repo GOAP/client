@@ -27,7 +27,7 @@ namespace Game {
 
         // True if step is completed, false otherwise
         bool RunStep(GOAP::Action step) {
-            if(this->lastAction == step.ID) 
+            if(this->lastAction == step.ID)
                 this->times++;
             else {
                 this->lastAction = step.ID;
@@ -37,7 +37,7 @@ namespace Game {
             std::cout << "mainloop: Action: " << step.ID << ". ";
 
             // We only ever execute the first step of a plan.
-            if(step.ID == "move") { 
+            if(step.ID == "move") {
                 this->movementProvider(step.GetX(), step.GetY());
 
                 float* position = this->locationProvider();
@@ -49,7 +49,7 @@ namespace Game {
                 float diffX = this->agent.GetX() - step.GetX();
                 float diffY = this->agent.GetY() - step.GetY();
 
-                if(diffX > -2 && diffX < 2 && diffY > -2 && diffY < 2) 
+                if(diffX > -2 && diffX < 2 && diffY > -2 && diffY < 2)
                     return true;
 
             } else if(step.ID == "pickup") {
