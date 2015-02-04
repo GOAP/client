@@ -10,21 +10,26 @@
 #include "Steering.h"
 #include "StateMachine.h"
 
+//MAP LOADER
+#include "TmxLoader.h"
+
 // GOAP
 #include "goap/action.hpp"
 #include "goap/plan.hpp"
 #include "game/state.hpp"
 
+TmxLoader loaderObject;
+
 /*
 GLOBAL CONTAINER HOLDING ALL STATIC ENTITIES
 */
-std::vector<StaticEntity> staticEntities;
+std::vector<Entity*> staticEntities;
 /*
 Creates the aiAgent with a raious of 10 and initial position of x-10, y-10.
 */
 Agent aiAgent(10, 10,500, 240, 0, 0);
 
-/*
+/*	
 Initializes the world with a default state.
 */
 StateMachine worldState;
@@ -48,7 +53,7 @@ int main(int argc, char* argv[]) {
     FPS LIMITER
     */
     App.setFramerateLimit(60);
-
+	
 
     //Seed random number generator.
     srand(time(NULL));
@@ -72,14 +77,10 @@ int main(int argc, char* argv[]) {
     // Print plan.
     std::cout << "<<<< PLAN >>>>" << std::endl;
     plan.Show();
-
-    /*
-    For loop populates world with static entities.
-    */
-    for (int i = 0; i <= 15; ++i)
-    {
-        staticEntities.push_back(StaticEntity(20, rand() % 600, rand() % 800));
-    }
+	
+	//Loads The Objects to static Entities;
+	loaderObject.loadFile("MapDataComplete.xml");
+	staticEntities = *loaderObject.getStatics();
 
     // Main game loop.
     std::cout << "<<<< ENTERING MAIN LOOP >>>>" << std::endl;
@@ -142,7 +143,7 @@ int main(int argc, char* argv[]) {
 
         for (int i = 0; i <= staticEntities.size() - 1; ++i)
         {
-            App.draw(staticEntities[i].getShape());
+            App.draw(staticEntities[i]->getSprite());
         }
         App.draw(*aiAgent.getShape());
         App.draw(*aiAgent.getDirectionShape());

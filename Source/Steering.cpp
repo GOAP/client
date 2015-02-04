@@ -1,18 +1,18 @@
 #include "Steering.h"
 
-bool Steering::isNotMatch(StaticEntity toMatch, std::vector<StaticEntity> from)
+bool Steering::isNotMatch(Entity toMatch, std::vector<Entity*> from)
 {
 	if (from.empty())
 		return true;
 	for (int i = 0; i <= from.size() - 1; i++)
 	{
-		if (toMatch == from[i])
+		if (toMatch == *from[i])
 			return false;
 		return true;
 	}
 }
 
-std::vector<StaticEntity> Steering::relaventList(std::vector<StaticEntity> from, sf::Vector2f alignment)
+std::vector<Entity*> Steering::relaventList(std::vector<Entity*> from, sf::Vector2f alignment)
 {
 	if (from.empty())
 		return from;
@@ -20,8 +20,8 @@ std::vector<StaticEntity> Steering::relaventList(std::vector<StaticEntity> from,
 	{
 		for (int i = 0; i <= from.size() - 1 && !from.empty(); i++)
 		{
-			float tempAngle = angleBetweenVectors(normalize(from[i].getPosition() - *agentPosition), normalize(alignment));
-			if (tempAngle < 270 && tempAngle > 90 || distanceBetweenPoints(from[i].getPosition(), *agentPosition) > detectionRange + detectionRange/2)
+			float tempAngle = angleBetweenVectors(normalize(from[i]->getPosition() - *agentPosition), normalize(alignment));
+			if (tempAngle < 270 && tempAngle > 90 || distanceBetweenPoints(from[i]->getPosition(), *agentPosition) > detectionRange + detectionRange/2)
 			{
 				from.erase(from.begin() + i);
 			}
@@ -43,7 +43,7 @@ Steering::~Steering()
 {
 }
 
-std::vector<StaticEntity> Steering::collisionAvoidTo(sf::Vector2f* goalPosition, std::vector<StaticEntity> listOfStatics)
+std::vector<Entity*> Steering::collisionAvoidTo(sf::Vector2f* goalPosition, std::vector<Entity*> listOfStatics)
 {
 	//Normalizes alignemntVector in order to avoid a teleportation glitch.
 	sf::Vector2f alignmentVector = normalize(*goalPosition - *agentPosition);
@@ -54,7 +54,7 @@ std::vector<StaticEntity> Steering::collisionAvoidTo(sf::Vector2f* goalPosition,
 	for (int i = 0; i <= listOfStatics.size() - 1; i++)
 	{
 		//isNotMatch() method ignores already added entities.
-		if (distanceBetweenPoints(*agentPosition, listOfStatics[i].getPosition()) < detectionRange && isNotMatch(listOfStatics[i], detectedPoints))
+		if (distanceBetweenPoints(*agentPosition, listOfStatics[i]->getPosition()) < detectionRange && isNotMatch(*listOfStatics[i], detectedPoints))
 			detectedPoints.push_back(listOfStatics[i]);
 	}
 
@@ -69,7 +69,7 @@ std::vector<StaticEntity> Steering::collisionAvoidTo(sf::Vector2f* goalPosition,
 		Smaller the angle between the two the larger the initial chang will be. 
 		0 degrees will produce a 90 degree change.
 		*/
-		float tempAngle = signedAngleBetweenVectors(alignmentVector, normalize(detectedPoints[i].getPosition() - *agentPosition));
+		float tempAngle = signedAngleBetweenVectors(alignmentVector, normalize(detectedPoints[i]->getPosition() - *agentPosition));
 		*agentDirection = rotateCounterClockwise(*agentDirection, 2 * (-90+tempAngle));
 	}
 
