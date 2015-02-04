@@ -1,0 +1,19 @@
+
+
+ObtainWood(Location)
+    PRE: At(Location), WoodAt(Location), HasInventorySpace()
+    POST: !WoodAt(Location)
+
+ObtainAnimalMeat(Location)
+    PRE: At(Location), DeadAnimalAt(Location), HasInventorySpace
+    POST: !DeadAnimalAt(Location)
+
+KillAnimal(Location)
+    PRE: WithinRange(Location, 5), AliveAnimalAt(Location)
+    POST: !AliveAnimalAt(Location), DeadAnimalAt(Location)
+
+Move(From, To)
+    PRE: At(From)
+    POST: !At(From), At(To)
+
+
