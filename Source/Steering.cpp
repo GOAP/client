@@ -21,7 +21,7 @@ std::vector<Entity*> Steering::relaventList(std::vector<Entity*> from, sf::Vecto
 		for (int i = 0; i <= from.size() - 1 && !from.empty(); i++)
 		{
 			float tempAngle = angleBetweenVectors(normalize(from[i]->getPosition() - *agentPosition), normalize(alignment));
-			if (tempAngle < 270 && tempAngle > 90 || distanceBetweenPoints(from[i]->getPosition(), *agentPosition) > detectionRange + detectionRange/2)
+			if (tempAngle < 270 && tempAngle > 90 || distanceBetweenPoints(from[i]->getPosition(), *agentPosition) > detectionRange)
 			{
 				from.erase(from.begin() + i);
 			}
@@ -69,8 +69,8 @@ std::vector<Entity*> Steering::collisionAvoidTo(sf::Vector2f* goalPosition, std:
 		Smaller the angle between the two the larger the initial chang will be. 
 		0 degrees will produce a 90 degree change.
 		*/
-		float tempAngle = signedAngleBetweenVectors(alignmentVector, normalize(detectedPoints[0]->getPosition() - *agentPosition));
-		*agentDirection = rotateCounterClockwise(*agentDirection, 2 * (-90+tempAngle));
+		float tempAngle = signedAngleBetweenVectors(alignmentVector, normalize(detectedPoints[i]->getPosition() - *agentPosition));
+		*agentDirection = rotateCounterClockwise(*agentDirection, 2 * (-90 + tempAngle / (i + 1)));
 	}
 
 	//Finalizes the agent direction to be used when moving the agent.

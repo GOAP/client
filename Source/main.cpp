@@ -101,7 +101,8 @@ int main(int argc, char* argv[]) {
     plan.Show();
 	
 	//Loads The Objects to static Entities;
-	loaderObject.loadFile("MapDataComplete.xml");
+	loaderObject.loadFile("MapDataComplete_v2\
+						  .xml");
 	staticEntities = *loaderObject.getStatics();
 
     // Main game loop.
