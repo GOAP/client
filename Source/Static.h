@@ -14,9 +14,6 @@ public:
 		_sprite = sprite;
 		_position.x = x;
 		_position.y = y;
-
-		/*DO IF STATEMENT FOR TYPE OF INTERACTABLE*/
-		//if (id == )
 	}
 
 	~Static(){}
