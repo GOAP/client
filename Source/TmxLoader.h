@@ -13,7 +13,7 @@ using namespace tinyxml2;
 class TmxLoader
 {
 private: 
-	vector<Entity*> _statics;
+	vector<Entity*> _allEntities;
 public:
 
 	TmxLoader(){};
@@ -90,18 +90,18 @@ public:
 			{
 				if (ResourceData[i][j] == 1)
 				{
-					Static* temp = new Static(ResourceData[i][j], j * 15, i * 15, tree_);
-					_statics.push_back(temp);
+					Entity* temp = new Static(ResourceData[i][j] + 100, j * 15, i * 15, tree_);
+					_allEntities.push_back(temp);
 				}
 				if (ResourceData[i][j] == 2)
 				{
-					Static* temp = new Static(ResourceData[i][j], j * 15, i * 15, rock_);
-					_statics.push_back(temp);
+					Entity* temp = new Static(ResourceData[i][j] + 100, j * 15, i * 15, rock_);
+					_allEntities.push_back(temp);
 				}	
 				if (ResourceData[i][j] == 3)
 				{
-					Static* temp = new Static(ResourceData[i][j], j * 15, i * 15, wood_);
-					_statics.push_back(temp);
+					Entity* temp = new Interactable(ResourceData[i][j] + 200, j * 15, i * 15, wood_, "wood");
+					_allEntities.push_back(temp);
 				}
 					
 			}
@@ -109,9 +109,9 @@ public:
 
 	}
 
-	vector<Entity*>* getStatics()
+	vector<Entity*>* getAllEntities()
 	{
-		return &_statics;
+		return &_allEntities;
 	}
 
 };

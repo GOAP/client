@@ -24,7 +24,7 @@ TmxLoader loaderObject;
 /*
 GLOBAL CONTAINER HOLDING ALL STATIC ENTITIES
 */
-std::vector<Entity*> staticEntities;
+std::vector<Entity*> allTempEntities;
 /*
 Creates the aiAgent with a raious of 10 and initial position of x-10, y-10.
 */
@@ -37,7 +37,7 @@ StateMachine worldState;
 
 void movementProvider(float x, float y) {
     sf::Vector2f target(x, y);
-    auto printable = aiAgent.steerAi.collisionAvoidTo(&target, staticEntities);
+    auto printable = aiAgent.steerAi.collisionAvoidTo(&target, allTempEntities);
 	if (printable.empty())
 	{
 		
@@ -65,7 +65,11 @@ float* locationProvider() {
 int main(int argc, char* argv[]) {
     sf::RenderWindow App(sf::VideoMode(800, 600), "GOAP client");
 	
-	
+	//Loads The Objects to static Entities;
+	loaderObject.loadFile("MapDataComplete_v2.xml");
+	allTempEntities = *loaderObject.getAllEntities();
+	worldState = StateMachine(allTempEntities);
+
 	//========================================================================================
 	sf::RectangleShape a(sf::Vector2f(32 * 15, 32 * 15));
 	a.setFillColor(sf::Color::White);
@@ -93,6 +97,16 @@ int main(int argc, char* argv[]) {
         Planner::Fact("health", {"70"}),
     });
 
+	Planner::State pState;
+	//==============================================================//
+	for (int i = 0; i <= worldState.getInteractables().size() - 1; ++i)
+	{
+		pState.push_back(
+			Planner::Fact(worldState.getInteractables()[i]->getName() + "_" + "at", { std::to_string(worldState.getInteractables()[i]->getPosition().x) + " " + std::to_string(worldState.getInteractables()[i]->getPosition().y)})
+		);
+	}
+	//====================================================================//
+
     Planner::Goal goal({
         Planner::Fact("at", {"250 50"})
     });
@@ -113,10 +127,6 @@ int main(int argc, char* argv[]) {
         std::cout << " - ";
         it->print();
     }
-	
-	//Loads The Objects to static Entities;
-	loaderObject.loadFile("MapDataComplete_v2.xml");
-	staticEntities = *loaderObject.getStatics();
 
     // Main game loop.
     std::cout << "<<<< ENTERING MAIN LOOP >>>>" << std::endl;
@@ -143,45 +153,9 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        /*
-        while (aiAgent.getPositionReference()->x != a.x && aiAgent.getPositionReference()->y != a.y)
+		for (int i = 0; i <= worldState.getAllEntities().size() - 1; ++i)
         {
-            std::vector<StaticEntity> detectionVectorsSource = aiAgent.steerAi.collisionAvoidTo(&a, staticEntities);
-            if (detectionVectorsSource.size() == 0){}
-            else
-            {
-                for (int i = 0; i <= detectionVectorsSource.size() - 1; ++i)
-                {
-                    sf::RectangleShape detectedDot(sf::Vector2f(10, 10));
-                    detectedDot.setPosition(detectionVectorsSource[i].getPosition());
-                    detectedDot.setFillColor(sf::Color(0, 240, 0));
-                    App.draw(detectedDot);
-                }
-            }
-
-
-            for(int i = 0; i <= staticEntities.size() - 1; ++i)
-            {
-                App.draw(staticEntities[i].getShape());
-            }
-            App.draw(*aiAgent.getShape());
-            App.draw(*aiAgent.getDirectionShape());
-
-            App.display();
-            App.clear();
-        }*/
-
-        /*
-        Post steer while loop draw. Used in the case when the agent reaches
-        the final position.
-        For loop draws all static entities.
-        Additional RenderWindow::draw() with the aiAgent shape as an
-        argument is called to draw the agent.
-        */
-
-        for (int i = 0; i <= staticEntities.size() - 1; ++i)
-        {
-            App.draw(staticEntities[i]->getSprite());
+			App.draw(worldState.getAllEntities()[i]->getSprite());
         }
         App.draw(*aiAgent.getShape());
         App.draw(*aiAgent.getDirectionShape());

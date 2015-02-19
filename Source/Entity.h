@@ -11,6 +11,8 @@ class Entity
 protected: 
 	int _id;
 
+	std::string _name;
+
 	sf::Vector2f _position;
 	sf::Sprite _sprite;
 
@@ -30,6 +32,14 @@ public:
 		_publicPosition.y = _position.y + 15 / 2;
 		
 		return _publicPosition;
+	}
+	int getId()
+	{
+		return _id;
+	}
+	std::string getName()
+	{
+		return _name;
 	}
 };
 

@@ -1,5 +1,9 @@
 #pragma once
 #include <SFML/System/Clock.hpp>
+#include <vector>
+#include "Entity.h"
+#include "Interactable.h"
+#include "Static.h"
 
 #define TIME 0
 
@@ -33,12 +37,34 @@ private:
 	float _energy;
 	float _thirst;
 
+	std::vector<Entity*> _allEntities;
+
+	std::vector<Interactable*> _interactables;
+	std::vector<Static*> _statics;
+
+	//Private Methods
+	void splitEntities()
+	{
+		for (int i = 0; i <= _allEntities.size() - 1; ++i)
+		{
+			if (_allEntities[i]->getId() >= 100 && _allEntities[i]->getId() < 200)
+			{
+				_statics.push_back(static_cast<Static*>(_allEntities[i]));
+			}
+
+			if (_allEntities[i]->getId() >= 200 && _allEntities[i]->getId() < 300)
+			{
+				_interactables.push_back(static_cast<Interactable*>(_allEntities[i]));
+			}
+		}
+	}
 public:
 	//Initialize world state to the following:
 	/*
 	Time tracking is ON
 	*/
 	StateMachine();
+	StateMachine(std::vector<Entity*> entities);
 
 	~StateMachine();
 
@@ -50,15 +76,32 @@ public:
 
 	void fillHunger(float ammount);
 	void fillThirst(float ammount);
+
+	std::vector<Interactable*> getInteractables()
+	{
+		return _interactables;
+	}
+	std::vector<Static*> getStatics()
+	{
+		return _statics;
+	}
+	std::vector<Entity*> getAllEntities()
+	{
+		return _allEntities;
+	}
 };
 
-StateMachine::StateMachine()
+StateMachine::StateMachine(){}
+StateMachine::StateMachine(std::vector<Entity*> entities)
 {
 	_isTimeOn = true;
 
 	_hunger = 100;
 	_energy = 100;
 	_thirst = 100;
+
+	_allEntities = entities;
+	splitEntities();
 }
 
 StateMachine::~StateMachine()
