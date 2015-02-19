@@ -14,8 +14,9 @@
 #include "TmxLoader.h"
 
 // GOAP
+#include "goap/fact.hpp"
 #include "goap/action.hpp"
-#include "goap/plan.hpp"
+#include "goap/problem.hpp"
 #include "game/state.hpp"
 
 TmxLoader loaderObject;
@@ -81,24 +82,37 @@ int main(int argc, char* argv[]) {
     srand(time(NULL));
 
     // Initialise GOAP objects.
-    GOAP::Plan plan;
-    GOAP::Action move("move", "Moves the agent to a position.");
-    GOAP::Action pickup("pickup", "Picks up object at current position.");
+    Planner::Action move("move",
+        {"from", "to"},
+        {Planner::Fact("at", {"from"}, true)},
+        {Planner::Fact("!at", {"from"}, true), Planner::Fact("at", {"to"}, true)}
+    );
+
+    Planner::State initialState({
+        Planner::Fact("at", {"0 0"}),
+        Planner::Fact("health", {"70"}),
+    });
+
+    Planner::Goal goal({
+        Planner::Fact("at", {"250 50"})
+    });
+
+    Planner::Problem p({ move }, initialState, goal);
+    p.print();
+
+    Planner::Plan* solution = p.solve();
 
     Game::State state;
     state.movementProvider = movementProvider;
     state.locationProvider = locationProvider;
 
-    // Prepare actions.
-    move.To(600, 150);
-
-    // Add actions to plan.
-    plan.Add(move);
-    plan.Add(pickup);
-
     // Print plan.
     std::cout << "<<<< PLAN >>>>" << std::endl;
-    plan.Show();
+    std::cout << "----" << std::endl << "Solution: " << std::endl;
+    for(auto it = solution->begin(); it != solution->end(); it++) {
+        std::cout << " - ";
+        it->print();
+    }
 	
 	//Loads The Objects to static Entities;
 	loaderObject.loadFile("MapDataComplete_v2.xml");
@@ -122,10 +136,10 @@ int main(int argc, char* argv[]) {
 		//FOR TESTING PURPOSES DISPLAYING FUNCTIONALITY OF GET TIME
 		float a = worldState.getCurrentTime();
         
-		if(plan.Length() != 0) {
-            if(state.RunStep(plan[0])) {
+		if(solution->size() != 0) {
+            if(state.RunStep(*solution->begin())) {
                 std::cout << "master: Action completed." << std::endl;
-                plan.Pop();
+                solution->erase(solution->begin());
             }
         }
 

@@ -1,44 +1,69 @@
-#ifndef GOAP_ACTION_HPP
-#define GOAP_ACTION_HPP
+#pragma once
 
 #include <iostream>
+#include <vector>
+#include <map>
+#include <assert.h>
 
-namespace GOAP {
-    class Action {
-        double coords[2];
+#include "goap/printable.hpp"
+#include "goap/fact.hpp"
 
+namespace Planner {
+    class Action: public Printable {
     public:
-        std::string ID;
-        std::string Description;
+        std::string name;
+        std::vector<std::string> params;
+        std::vector<Fact> preconditions;
+        std::vector<Fact> postconditions;
 
-        Action(std::string id, std::string description): ID(id), Description(description) {
-            coords[0] = -1;
-            coords[1] = -1; // -1 = unused
-        }
+        Action(std::string _name, std::vector<std::string> _params, std::vector<Fact> _preconditions, std::vector<Fact> _postconditions):
+            name(_name), params(_params), preconditions(_preconditions), postconditions(_postconditions) {};
 
-        void To(double x, double y) {
-            this->coords[0] = x;
-            this->coords[1] = y;
-        }
+        void print() {
+            std::cout << this->name << "(";
+            for(auto it = this->params.begin(); it != this->params.end(); it++) {
+                std::cout << *it << ", ";
+            }
+            std::cout << ")";
 
-        void Show() {
-            std::cout << this->ID;
-
-            if(this->coords[0] != -1 && this->coords[1] != -1) {
-                std::cout << ": " << this->coords[0] << "," << this->coords[1];
+            std::cout << ", preconditions: ";
+            for(auto it = this->preconditions.begin(); it != this->preconditions.end(); it++) {
+                it->print();
             }
 
-            std::cout << std::endl;
+            std::cout << ", postconditions: ";
+            for(auto it = this->postconditions.begin(); it != this->postconditions.end(); it++) {
+                it->print();
+            }
         }
 
-        double GetX() {
-            return this->coords[0];
-        }
+        State engage(State s, GroundState ground) {
+            // Remove negated postconditions from state, add new facts to the state
+            for(auto it = this->postconditions.begin(); it != this->postconditions.end(); it++) {
+                std::string name = it->name;
+                if(name[0] == '!') { // Remove this from the state
+                    name.erase(0, 1);
 
-        double GetY() {
-            return this->coords[1];
+                    auto position = s.end();
+                    for(auto stateIt = s.begin(); stateIt != s.end(); stateIt++)
+                        if(stateIt->name == name)
+                            position = stateIt;
+
+                    if(position != s.end())
+                        s.erase(position);
+
+                } else { // Addit to the state
+                    // At this point, we know the name of the fact we want to create,
+                    // but we need to match up the arguments with the supplied ground state.
+                    std::vector<std::string> arguments = matchGrounds(it->params, ground);
+
+                    // Got all of this postcondition's params matched up to their ground state.
+                    // All that's left is to instantiate a matching Fact and add it to the state.
+                    s.push_back(Fact(name, arguments));
+                }
+            }
+
+            return s;
         }
     };
-}
-
-#endif
+};
