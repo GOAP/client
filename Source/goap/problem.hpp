@@ -70,7 +70,7 @@ namespace Planner {
         std::vector<GroundState> generateGroundStates() {
             // FIX FIX FIX
             return {
-                {{"from", "0 0"}, {"to", "250 50"}}
+                {{"from", "0 0"}, {"to", "4000 7000"}}
             };
         }
 

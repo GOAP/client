@@ -34,6 +34,7 @@ std::vector<Entity*> Steering::relaventList(std::vector<Entity*> from, sf::Vecto
 Steering::Steering(){}
 Steering::Steering(sf::Vector2f* sentPosition, sf::Vector2f* sentDirection)
 {
+	detectionRange = 150;
 	agentPosition = sentPosition;
 	agentDirection = sentDirection;
 }

@@ -23,7 +23,7 @@ public:
 	sf::Sprite getSprite()
 	{
 		_sprite.setPosition(_position);
-		_sprite.setScale(0.15, 0.15);
+		//_sprite.setScale(0.15, 0.15);
 		return _sprite;
 	}
 	sf::Vector2f getPosition()

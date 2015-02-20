@@ -90,17 +90,17 @@ public:
 			{
 				if (ResourceData[i][j] == 1)
 				{
-					Entity* temp = new Static(ResourceData[i][j] + 100, j * 15, i * 15, tree_);
+					Entity* temp = new Static(ResourceData[i][j] + 100, j * 100, i * 100, tree_);
 					_allEntities.push_back(temp);
 				}
 				if (ResourceData[i][j] == 2)
 				{
-					Entity* temp = new Static(ResourceData[i][j] + 100, j * 15, i * 15, rock_);
+					Entity* temp = new Static(ResourceData[i][j] + 100, j * 100, i * 100, rock_);
 					_allEntities.push_back(temp);
 				}	
 				if (ResourceData[i][j] == 3)
 				{
-					Entity* temp = new Interactable(ResourceData[i][j] + 200, j * 15, i * 15, wood_, "wood");
+					Entity* temp = new Interactable(ResourceData[i][j] + 200, j * 100, i * 100, wood_, "wood");
 					_allEntities.push_back(temp);
 				}
 					

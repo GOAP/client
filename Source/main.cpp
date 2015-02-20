@@ -64,14 +64,21 @@ float* locationProvider() {
 
 int main(int argc, char* argv[]) {
     sf::RenderWindow App(sf::VideoMode(800, 600), "GOAP client");
-	
+	//create agent view and define size and centre
+	sf::View agentView;
+	sf::Vector2f* agentPosition = aiAgent.getPositionReference();
+	agentView.setCenter(*agentPosition);
+	agentView.setSize(4000, 2000);
+	App.setView(agentView);
+	//
+
 	//Loads The Objects to static Entities;
 	loaderObject.loadFile("MapDataComplete_v2.xml");
 	allTempEntities = *loaderObject.getAllEntities();
 	worldState = StateMachine(allTempEntities);
 
 	//========================================================================================
-	sf::RectangleShape a(sf::Vector2f(32 * 15, 32 * 15));
+	sf::RectangleShape a(sf::Vector2f(32 * 100, 32 * 100));
 	a.setFillColor(sf::Color::White);
 	//======================================================================================
 	
@@ -108,7 +115,7 @@ int main(int argc, char* argv[]) {
 	//====================================================================//
 
     Planner::Goal goal({
-        Planner::Fact("at", {"250 50"})
+        Planner::Fact("at", {"4000 7000"})
     });
 
     Planner::Problem p({ move }, initialState, goal);
@@ -157,6 +164,9 @@ int main(int argc, char* argv[]) {
         {
 			App.draw(worldState.getAllEntities()[i]->getSprite());
         }
+		//define view centre
+		agentView.setCenter(*agentPosition);
+		App.setView(agentView);
         App.draw(*aiAgent.getShape());
         App.draw(*aiAgent.getDirectionShape());
 

@@ -15,7 +15,7 @@ private:
 
 	std::vector<Entity*> detectedPoints;
 	
-	int detectionRange = 15;
+	int detectionRange;
 	
 	std::vector<Entity*> relaventList(std::vector<Entity*> from, sf::Vector2f alignment);
 
