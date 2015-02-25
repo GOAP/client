@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <map>
@@ -67,11 +68,39 @@ namespace Planner {
             return s;
         }
 
-        std::vector<GroundState> generateGroundStates() {
-            // FIX FIX FIX
-            return {
-                {{"from", "0 0"}, {"to", "4000 7000"}}
-            };
+        std::vector<GroundState> generateGroundStates(Action* act, State s, Goal g) {
+            std::vector<GroundState> result;
+            std::vector<std::string> values;
+
+            // Extract all values
+            for(auto it = s.begin(); it != s.end(); it++) {
+                for(auto itp = it->params.begin(); itp != it->params.end(); itp++) {
+                    values.push_back(*itp);
+                }
+            }
+            for(auto it = g.begin(); it != g.end(); it++) {
+                for(auto itp = it->params.begin(); itp != it->params.end(); itp++) {
+                    values.push_back(*itp);
+                }
+            }
+
+
+            std::sort(values.begin(), values.end()); // don't ask
+
+            do { 
+                int ctr = 0;
+                GroundState target;
+
+                // Find all combinations
+                for(auto itp = act->params.begin(); itp != act->params.end(); itp++) {
+                    std::cout << *itp << " " << values[ctr] << std::endl;
+                    target[*itp] = values[ctr++];
+                }
+
+                result.push_back(target);
+            } while(std::next_permutation(values.begin(), values.end()));
+
+            return result;
         }
 
         Plan* solve_(State s, Goal g, int depth = 0) {
@@ -115,7 +144,7 @@ namespace Planner {
                     return NULL;
 
                 // Generate possible ground states
-                std::vector<GroundState> grounds = this->generateGroundStates();
+                std::vector<GroundState> grounds = this->generateGroundStates(candidate, s, g);
                 auto ground = grounds.end();
                 Plan* subplan = NULL;
                 bool found = false;

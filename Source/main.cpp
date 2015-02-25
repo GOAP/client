@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
 	//====================================================================//
 
     Planner::Goal goal({
-        Planner::Fact("at", {"4000 7000"})
+        Planner::Fact("at", {"3000 1000"})
     });
 
     Planner::Problem p({ move }, initialState, goal);
