@@ -1,6 +1,8 @@
 #include "SfVectorMath.h"
 
 
+
+
 float dotProductOf(sf::Vector2f vector1, sf::Vector2f vector2)
 {
 	return (vector1.x * vector2.x + vector1.y * vector2.y);
@@ -15,6 +17,11 @@ sf::Vector2f normalize(sf::Vector2f vector)
 {
 	float magnitude = magnitudeOf(vector);
 	return sf::Vector2f(vector.x / magnitude, vector.y / magnitude);
+}
+
+sf::Vector2f scalarMult(float num, sf::Vector2f vec)
+{
+	return sf::Vector2f(vec.x*num, vec.y*num);
 }
 
 sf::Vector2f rotateCounterClockwise(sf::Vector2f vector, float angle)

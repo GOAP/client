@@ -42,6 +42,9 @@ NB: The answer is relative to the 'vector1' argument!
 float distanceBetweenPoints(Vector2f vector1, Vector2f vector2);
 Returns a float describing the distance between the two vectors/points.
 */
+
+
+
 float dotProductOf(sf::Vector2f& vector1, sf::Vector2f& vector2);
 
 float magnitudeOf(sf::Vector2f vector);
@@ -49,6 +52,8 @@ float magnitudeOf(sf::Vector2f vector);
 sf::Vector2f normalize(sf::Vector2f vector);
 
 sf::Vector2f rotateCounterClockwise(sf::Vector2f vector, float angle);
+
+sf::Vector2f scalarMult(float num, sf::Vector2f vec);
 
 float signedAngleBetweenVectors(sf::Vector2f vector1, sf::Vector2f vector2);
 

@@ -23,16 +23,14 @@ private:
 	sf::Clock _depreciater;
 
 	float _currentGameTime;
-	
+
 	//STATE BOOLEANS
 	bool _isTimeOn;
-	
 	bool _isSleeping;
-	
 	bool _isThirsty;
 	bool _isHungry;
 
-	//FLOATS
+	//Life values
 	float _hunger;
 	float _energy;
 	float _thirst;
@@ -168,7 +166,8 @@ void StateMachine::updateState()
 				_thirst -= THIRST_LOSS/2;
 		}
 
-
+		_timeKeeper.getElapsedTime().asMilliseconds();
+		
 
 		_depreciater.restart();
 	}

@@ -83,7 +83,6 @@ public:
 		wood_.setTexture(*woodTexture);
 
 		
-		
 		for (int i = 0; i < MapHeight; ++i)
 		{
 			for (int j = 0; j < MapWidth; ++j)
