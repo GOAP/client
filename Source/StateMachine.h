@@ -42,6 +42,8 @@ private:
 	std::vector<Interactable*> _interactables;
 	std::vector<Static*> _statics;
 
+	std::vector<Interactable*> _inventory;
+
 	//Private Methods
 	void splitEntities()
 	{
@@ -88,6 +90,21 @@ public:
 	std::vector<Entity*> getAllEntities()
 	{
 		return _allEntities;
+	}
+
+	std::vector<Interactable*> getInventory()
+	{
+		return _inventory;
+	}
+
+	void addToInventory(Interactable* item)
+	{
+		_inventory.push_back(item);
+	}
+	void removeFromInventory(int index)
+	{
+		_inventory.erase(_inventory.begin() + index);
+		_inventory.shrink_to_fit();
 	}
 };
 

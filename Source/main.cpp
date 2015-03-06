@@ -68,7 +68,10 @@ int main(int argc, char* argv[]) {
 	sf::View agentView;
 	sf::Vector2f* agentPosition = aiAgent.getPositionReference();
 	agentView.setCenter(*agentPosition);
-	agentView.setSize(4000, 2000);
+	double winWidth, winHeight;
+	winWidth = 400;
+	winHeight = 200;
+	agentView.setSize(winWidth, winHeight); //4000, 2000
 	App.setView(agentView);
 	//
 
@@ -165,8 +168,15 @@ int main(int argc, char* argv[]) {
 			App.draw(worldState.getAllEntities()[i]->getSprite());
         }
 		//define view centre
-		agentView.setCenter(*agentPosition);
-		App.setView(agentView);
+		if (aiAgent.getPositionReference()->x >= (winWidth / 2) + aiAgent.getPositionReference()->x + 50 || aiAgent.getPositionReference()->y >= (winHeight / 2) + aiAgent.getPositionReference()->y + 50 ||
+			aiAgent.getPositionReference()->x <= (winWidth / 2) - aiAgent.getPositionReference()->x - 50 || aiAgent.getPositionReference()->y <= (winHeight / 2) - aiAgent.getPositionReference()->y - 50)
+		{
+			//std::cout << "AI POS X " << aiAgent.getPositionReference()->x << " WIN POINT X" << (winWidth / 2) + 140 << endl;
+			std::cout << (winWidth / 2) - aiAgent.getPositionReference()->x + 200 << std::endl;
+			agentView.setCenter(*agentPosition);
+			App.setView(agentView);
+		}
+
         App.draw(*aiAgent.getShape());
         App.draw(*aiAgent.getDirectionShape());
 
