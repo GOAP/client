@@ -103,8 +103,8 @@ int main(int argc, char* argv[]) {
     );
 
     Planner::State initialState({
-        Planner::Fact("at", {"0 0"}),
         Planner::Fact("health", {"70"}),
+        Planner::Fact("at", {"0 0"}),
     });
 
 	Planner::State pState;

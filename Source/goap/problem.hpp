@@ -16,7 +16,7 @@ namespace Planner {
         std::map<std::string, Action> actions;
         Goal goal;
 
-        bool satisfies(State state, Goal g) {
+        bool satisfies(State state, Goal g, bool weak=true, GroundState* ground=NULL) {
             for(auto it = g.begin(); it != g.end(); it++) {
                 // Check if this fact is in the state
                 for(auto its = state.begin(); its != state.end(); its++) {
@@ -25,8 +25,21 @@ namespace Planner {
 
                         // If any of the arguments are different (and not floating), it doesn't satisfy the goal
                         for(int i = 0; i < its->params.size(); i++) {
-                            if((its->params[i] != it->params[i]) && it->floating == false && its->floating == false)
-                                return false;
+                            if(weak) {
+                                if((its->params[i] != it->params[i]) && it->floating == false && its->floating == false)
+                                    return false;
+                            } else {
+                                if(ground == NULL) return false;
+
+                                // Check with the ground state
+                                std::vector<std::string> arguments = matchGrounds(it->params, *ground);
+
+                                if(its->params[i] != arguments[i]) {
+                                    std::cout << "STRONG MATCH FAILURE: " << it->params[i] << " != " << arguments[i] << std::endl;
+
+                                    return false;
+                                }
+                            }
                         }
                     }
                 }
@@ -103,7 +116,7 @@ namespace Planner {
             return result;
         }
 
-        Plan* solve_(State s, Goal g, int depth = 0) {
+        Plan* solve_(State s, Goal g, int depth = 0, GroundState* stepGround = NULL) {
             std::string padding;
             Plan* p = new Plan;
 
@@ -125,8 +138,18 @@ namespace Planner {
                 std::cout << std::endl;
             }
 
+            if(stepGround != NULL) {
+                std::cout << padding << "Ground: " << std::endl;
+                for(auto it = stepGround->begin(); it != stepGround->end(); it++) {
+                    std::cout << padding << " - " << it->first << ": " << it->second;
+                    std::cout << std::endl;
+                }
+            }
+
             while(true) {
-                if(satisfies(s, g)) {
+                bool weakMatch = stepGround == NULL;
+
+                if(satisfies(s, g, weakMatch, stepGround)) {
                     std::cout << padding << ">> SOLUTION << state: " << std::endl;
                     for(auto it = s.begin(); it != s.end(); it++) {
                         std::cout << padding << " - ";
@@ -150,10 +173,11 @@ namespace Planner {
                 bool found = false;
 
                 for(auto it = grounds.begin(); it != grounds.end(); it++) {
-                    ground = it;
+                    ground = it; 
+                    GroundState* copiedGround = &(*it);
 
                     // Get a plan that solves candidate's preconditions with the current ground candidate
-                    subplan = this->solve_(s, candidate->preconditions, depth + 1);
+                    subplan = this->solve_(s, candidate->preconditions, depth + 1, copiedGround);
                     if(subplan == NULL)
                         continue;
 
@@ -163,6 +187,7 @@ namespace Planner {
                     s = update_state(s, *subplan, *ground);
                     // Run the current action and modify the state
                     s = candidate->engage(s, *ground);
+                    break;
                 }
 
                 if(found == false) // None of the ground states are valid: no solution
