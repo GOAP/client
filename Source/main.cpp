@@ -73,7 +73,6 @@ int main(int argc, char* argv[]) {
 	winHeight = 200;
 	agentView.setSize(winWidth, winHeight); //4000, 2000
 	App.setView(agentView);
-	//
 
 	//Loads The Objects to static Entities;
 	loaderObject.loadFile("MapDataComplete_v2.xml");
