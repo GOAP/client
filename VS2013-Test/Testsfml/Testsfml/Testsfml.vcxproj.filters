@@ -64,7 +64,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Assets\Wood.png">
+    <Image Include="..\..\..\Assets\Log.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\..\..\Assets\Stone.png">

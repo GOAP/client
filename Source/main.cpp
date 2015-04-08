@@ -74,12 +74,11 @@ int main(int argc, char* argv[]) {
 	sf::Vector2f* agentPosition = aiAgent.getPositionReference();
 	agentView.setCenter(*agentPosition);
 	double winWidth, winHeight;
-	winWidth = 400;
-	winHeight = 200;
+	winWidth = 600;
+	winHeight = 400;
 	agentView.setSize(winWidth, winHeight); //4000, 2000
 	App.setView(agentView);
-	//
-
+	
 	//Loads The Objects to static Entities;
 	loaderObject.loadFile("MapDataComplete_v2.xml");
 	allTempEntities = *loaderObject.getAllEntities();
@@ -88,6 +87,7 @@ int main(int argc, char* argv[]) {
 	//========================================================================================
 	sf::RectangleShape a(sf::Vector2f(32 * 100, 32 * 100));
 	a.setFillColor(sf::Color::White);
+	a.setPosition(sf::Vector2f(-800, 0));
 	//======================================================================================
 	
 	
@@ -177,8 +177,6 @@ int main(int argc, char* argv[]) {
 		agentView.setCenter(cameraLookProvider(*agentPosition, agentView));
 		App.setView(agentView);
 
-		
-		
 
         App.draw(*aiAgent.getShape());
         App.draw(*aiAgent.getDirectionShape());

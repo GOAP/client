@@ -32,9 +32,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\Assets\Log.png" />
     <Image Include="..\..\..\Assets\Stone.png" />
     <Image Include="..\..\..\Assets\Tree.png" />
-    <Image Include="..\..\..\Assets\Wood.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{07C56128-9C22-4768-AEEF-B62E12448D7E}</ProjectGuid>
