@@ -86,7 +86,7 @@ int main(int argc, char* argv[]) {
 
 	//========================================================================================
 	sf::RectangleShape a(sf::Vector2f(32 * 100, 32 * 100));
-	a.setFillColor(sf::Color::White);
+	a.setFillColor(sf::Color::Green);
 	a.setPosition(sf::Vector2f(-800, 0));
 	//======================================================================================
 	

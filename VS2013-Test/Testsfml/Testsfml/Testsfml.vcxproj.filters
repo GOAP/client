@@ -73,5 +73,8 @@
     <Image Include="..\..\..\Assets\Tree.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\..\..\Assets\Tree.tga">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

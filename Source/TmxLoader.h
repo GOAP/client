@@ -66,6 +66,11 @@ public:
 		/*
 		LOAD ALL NECESARY ASSETS;
 		*/
+		sf::Image treeImage;
+
+		if (treeImage.loadFromFile("Assets/Tree.png"))
+			std::cout << "hi" << std::endl;
+
 		sf::Texture* treeTexture = new sf::Texture();
 		sf::Texture* rockTexture = new sf::Texture();
 		sf::Texture* woodTexture = new sf::Texture();
