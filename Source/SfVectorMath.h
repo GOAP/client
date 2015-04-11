@@ -55,3 +55,5 @@ float signedAngleBetweenVectors(sf::Vector2f vector1, sf::Vector2f vector2);
 float angleBetweenVectors(sf::Vector2f vector1, sf::Vector2f vector2);
 
 float distanceBetweenPoints(sf::Vector2f vector1, sf::Vector2f vector2);
+
+sf::Vector2f scalarMult(float num, sf::Vector2f vec);

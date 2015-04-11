@@ -53,3 +53,8 @@ float distanceBetweenPoints(sf::Vector2f vector1, sf::Vector2f vector2)
 {
 	return magnitudeOf(vector1 - vector2);
 }
+
+sf::Vector2f scalarMult(float num, sf::Vector2f vec)
+{
+	return sf::Vector2f(vec.x*num, vec.y*num);
+}

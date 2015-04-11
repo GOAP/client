@@ -62,6 +62,11 @@ float* locationProvider() {
     return position;
 }
 
+bool isCenterMatch = true;
+sf::Clock cameraClock;
+sf::Vector2f cameraLookProvider(sf::Vector2f agentPos, sf::View view);
+bool isBorderHit(sf::Vector2f agentPos, sf::View view);
+
 int main(int argc, char* argv[]) {
     sf::RenderWindow App(sf::VideoMode(800, 600), "GOAP client");
 	//create agent view and define size and centre
@@ -167,14 +172,8 @@ int main(int argc, char* argv[]) {
 			App.draw(worldState.getAllEntities()[i]->getSprite());
         }
 		//define view centre
-		if (aiAgent.getPositionReference()->x >= (winWidth / 2) + aiAgent.getPositionReference()->x + 50 || aiAgent.getPositionReference()->y >= (winHeight / 2) + aiAgent.getPositionReference()->y + 50 ||
-			aiAgent.getPositionReference()->x <= (winWidth / 2) - aiAgent.getPositionReference()->x - 50 || aiAgent.getPositionReference()->y <= (winHeight / 2) - aiAgent.getPositionReference()->y - 50)
-		{
-			//std::cout << "AI POS X " << aiAgent.getPositionReference()->x << " WIN POINT X" << (winWidth / 2) + 140 << endl;
-			std::cout << (winWidth / 2) - aiAgent.getPositionReference()->x + 200 << std::endl;
-			agentView.setCenter(*agentPosition);
-			App.setView(agentView);
-		}
+		agentView.setCenter(cameraLookProvider(*agentPosition, agentView));
+		App.setView(agentView);
 
         App.draw(*aiAgent.getShape());
         App.draw(*aiAgent.getDirectionShape());
@@ -183,3 +182,45 @@ int main(int argc, char* argv[]) {
         App.clear();
     }
 }
+
+
+sf::Vector2f cameraLookProvider(sf::Vector2f agentPos, sf::View view)
+ {
+	if (isBorderHit(agentPos, view) && isCenterMatch)
+		{
+		isCenterMatch = false;
+		cameraClock.restart();
+		}
+	if (agentPos == view.getCenter())
+		 isCenterMatch = true;
+	
+		
+		if (!isCenterMatch)
+		 {
+		sf::Vector2f directionVector = normalize((agentPos - view.getCenter()));
+		double speed = 1.16;
+		sf::Int32 time = cameraClock.getElapsedTime().asMilliseconds();
+		if (time > 2600)
+			 time = 2600;
+		return view.getCenter() + scalarMult(sin(time / 2600) * speed, directionVector);
+		}
+	
+		}
+
+bool isBorderHit(sf::Vector2f agentPos, sf::View view)
+ {
+	double centerX = view.getCenter().x;
+	double centerY = view.getCenter().y;
+	
+		double agentX = agentPos.x - centerX;
+	double agentY = agentPos.y - centerY;
+	double boxSize = 250;
+	
+		if (agentX > centerX + boxSize || agentX < centerX + boxSize ||
+		+agentY > centerY + boxSize || agentY < centerY - boxSize)
+		return true;
+	else
+		 {
+		return false;
+		}
+	}
