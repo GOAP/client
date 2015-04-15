@@ -10,6 +10,7 @@
 #include "Steering.h"
 #include "StateMachine.h"
 
+
 //MAP LOADER
 #include "TmxLoader.h"
 
@@ -74,19 +75,20 @@ int main(int argc, char* argv[]) {
 	sf::Vector2f* agentPosition = aiAgent.getPositionReference();
 	agentView.setCenter(*agentPosition);
 	double winWidth, winHeight;
-	winWidth = 400;
-	winHeight = 200;
-	agentView.setSize(winWidth, winHeight); //4000, 2000
+	winWidth = 1500;
+	winHeight = 750;
+	agentView.setSize(winWidth, winHeight); //600, 300
 	App.setView(agentView);
 
 	//Loads The Objects to static Entities;
-	loaderObject.loadFile("MapDataComplete_v2.xml");
+	sf::Sprite* terrains = loaderObject.loadFile("MapDataComplete_v2.xml");
 	allTempEntities = *loaderObject.getAllEntities();
+	vector< vector<int> > tiles = loaderObject.getTiles();
 	worldState = StateMachine(allTempEntities);
 
 	//========================================================================================
 	sf::RectangleShape a(sf::Vector2f(32 * 100, 32 * 100));
-	a.setFillColor(sf::Color::White);
+	a.setFillColor(sf::Color::Green);
 	//======================================================================================
 	
 	
@@ -152,7 +154,14 @@ int main(int argc, char* argv[]) {
                 App.close();
         }
 		
-		App.draw(a);
+		for (int i = 0; i < 32; ++i)
+		{
+			for (int j = 0; j < 32; ++j)
+			{
+				(terrains + tiles[i][j])->setPosition(sf::Vector2f(64 * i, 64 * j));
+				App.draw(*(terrains + tiles[i][j]));
+			}
+		}
 
 		//UPDATE STATE NEEDS TO BE CALLED EVERY FRAME
 		worldState.updateState();

@@ -14,12 +14,19 @@ class TmxLoader
 {
 private: 
 	vector<Entity*> _allEntities;
+	
+	vector< vector <int> > tile_data;
+
+	sf::Sprite terrains[6];
+	int TileData[64][64];
+	int ResourceData[64][64];
+	
 public:
 
 	TmxLoader(){};
 	~TmxLoader(){};
 
-	void loadFile(const char* mapName)
+	sf::Sprite* loadFile(const char* mapName)
 	{
 		XMLDocument xmlDoc;
 		XMLError eResult = xmlDoc.LoadFile(mapName);
@@ -43,8 +50,7 @@ public:
 		int DataExtract2;
 
 		//NOT USE TILEDATA FOR NOW!
-		int TileData[64][64];
-		int ResourceData[64][64];
+		
 
 		XMLElement * ListElement = Element->FirstChild()->ToElement();
 
@@ -63,14 +69,45 @@ public:
 				cout << DataExtract2;
 			}
 		}
+
+		for (int i = 0; i < MapHeight; ++i)
+		{
+			vector<int> temp;
+			for (int j = 0; j < MapWidth; ++j)
+			{
+				temp.push_back(TileData[i][j]);
+			}
+			tile_data.push_back(temp);
+		}
 		/*
 		LOAD ALL NECESARY ASSETS;
 		*/
-		sf::Image treeImage;
 
-		if (treeImage.loadFromFile("Assets/Tree.png"))
-			std::cout << "hi" << std::endl;
+		//Terrain
+		sf::Texture* stoneTerrain = new sf::Texture();
+		sf::Texture* snowTerrain = new sf::Texture();
+		sf::Texture* sandTerrain = new sf::Texture();
+		sf::Texture* grassTerrain = new sf::Texture();
+		sf::Texture* dirtTerrain = new sf::Texture();
+		sf::Texture* watterTerrain = new sf::Texture();
 
+		stoneTerrain->loadFromFile("Assets/terrain_stone.png");
+		snowTerrain->loadFromFile("Assets/terrain_snow.png");
+		sandTerrain->loadFromFile("Assets/terrain_sand.png");
+		grassTerrain->loadFromFile("Assets/terrain_grass.png");
+		dirtTerrain->loadFromFile("Assets/terrain_dirt.png");
+		watterTerrain->loadFromFile("Assets/terrain_watter.png");
+
+		terrains[0].setTexture(*stoneTerrain);
+		terrains[1].setTexture(*snowTerrain);
+		terrains[2].setTexture(*sandTerrain);
+		terrains[3].setTexture(*grassTerrain);
+		terrains[4].setTexture(*dirtTerrain);
+		terrains[5].setTexture(*watterTerrain);
+
+		terrains[5].setScale(sf::Vector2f(0.5, 0.5));
+
+		//Resourcess
 		sf::Texture* treeTexture = new sf::Texture();
 		sf::Texture* rockTexture = new sf::Texture();
 		sf::Texture* woodTexture = new sf::Texture();
@@ -87,31 +124,33 @@ public:
 		rock_.setTexture(*rockTexture);
 		wood_.setTexture(*woodTexture);
 
-		
-		
+		tree_.setScale(sf::Vector2f(0.64, 0.64));
+		rock_.setScale(sf::Vector2f(0.64, 0.64));
+		wood_.setScale(sf::Vector2f(0.64, 0.64));
+
 		for (int i = 0; i < MapHeight; ++i)
 		{
 			for (int j = 0; j < MapWidth; ++j)
 			{
 				if (ResourceData[i][j] == 1)
 				{
-					Entity* temp = new Static(ResourceData[i][j] + 100, j * 100, i * 100, tree_);
+					Entity* temp = new Static(ResourceData[i][j] + 100, j * 64, i * 64, tree_);
 					_allEntities.push_back(temp);
 				}
 				if (ResourceData[i][j] == 2)
 				{
-					Entity* temp = new Static(ResourceData[i][j] + 100, j * 100, i * 100, rock_);
+					Entity* temp = new Static(ResourceData[i][j] + 100, j * 64, i * 64, rock_);
 					_allEntities.push_back(temp);
 				}	
 				if (ResourceData[i][j] == 3)
 				{
-					Entity* temp = new Interactable(ResourceData[i][j] + 200, j * 100, i * 100, wood_, "wood");
+					Entity* temp = new Interactable(ResourceData[i][j] + 200, j * 64, i * 64, wood_, "wood");
 					_allEntities.push_back(temp);
 				}
 					
 			}
 		}
-
+		return terrains;
 	}
 
 	vector<Entity*>* getAllEntities()
@@ -119,5 +158,9 @@ public:
 		return &_allEntities;
 	}
 
+	vector< vector <int> > getTiles()
+	{
+		return tile_data;
+	}
 };
 

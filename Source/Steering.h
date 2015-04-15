@@ -18,6 +18,7 @@ private:
 	int detectionRange;
 	
 	std::vector<Entity*> relaventList(std::vector<Entity*> from, sf::Vector2f alignment);
+	std::vector<Entity*> relaventList(std::vector<Entity*> from, sf::Vector2f alignment, Entity* toGoTo);
 
 	//Private utility method
 	bool isNotMatch(Entity toMatch, std::vector<Entity*> from);
@@ -28,5 +29,6 @@ public:
 	~Steering();
 
 	std::vector<Entity*> collisionAvoidTo(sf::Vector2f* goalPosition, std::vector<Entity*> listOfStatics);
+	std::vector<Entity*> collisionAvoidTo(sf::Vector2f* goalPosition, std::vector<Entity*> listOfStatics, Entity* toGoTo);
 };
 
