@@ -14,6 +14,7 @@
     <ClInclude Include="..\..\..\Source\Agent.h" />
     <ClInclude Include="..\..\..\Source\Entity.h" />
     <ClInclude Include="..\..\..\Source\Interactable.h" />
+    <ClInclude Include="..\..\..\Source\Moodlets.h" />
     <ClInclude Include="..\..\..\Source\SfVectorMath.h" />
     <ClInclude Include="..\..\..\Source\StateMachine.h" />
     <ClInclude Include="..\..\..\Source\Static.h" />

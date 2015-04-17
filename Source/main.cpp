@@ -9,7 +9,7 @@
 #include "Agent.h"
 #include "Steering.h"
 #include "StateMachine.h"
-
+#include "Moodlets.h"
 
 //MAP LOADER
 #include "TmxLoader.h"
@@ -29,12 +29,16 @@ std::vector<Entity*> allTempEntities;
 /*
 Creates the aiAgent with a raious of 10 and initial position of x-10, y-10.
 */
-Agent aiAgent(10, 10,500, 240, 0, 0);
-
+Agent aiAgent(10, 0, 0, 240, 0, 0);
 /*	
 Initializes the world with a default state.
 */
 StateMachine worldState;
+
+Moodlets energy;
+Moodlets thirst;
+Moodlets hunger;
+Moodlets warmth;
 
 void movementProvider(float x, float y) {
     sf::Vector2f target(x, y);
@@ -85,6 +89,12 @@ int main(int argc, char* argv[]) {
 	allTempEntities = *loaderObject.getAllEntities();
 	vector< vector<int> > tiles = loaderObject.getTiles();
 	worldState = StateMachine(allTempEntities);
+	float aix = aiAgent.getPositionReference()->x;
+	float aiy = aiAgent.getPositionReference()->y;
+	energy = Moodlets(aix + 100, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[0], &agentView);
+	thirst = Moodlets(aix + 250, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[1], &agentView);
+	hunger = Moodlets(aix + 400, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[2], &agentView);
+	warmth = Moodlets(aix + 550, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[3], &agentView);
 
 	//========================================================================================
 	sf::RectangleShape a(sf::Vector2f(32 * 100, 32 * 100));
@@ -187,6 +197,19 @@ int main(int argc, char* argv[]) {
         App.draw(*aiAgent.getShape());
         App.draw(*aiAgent.getDirectionShape());
 
+		/*====================================================*/
+		energy.WeightHigh();
+		App.draw(energy.getBG());
+		App.draw(energy.getIcon());
+		thirst.WeightHigh();
+		App.draw(thirst.getBG());
+		App.draw(thirst.getIcon());
+		hunger.WeightHigh();
+		App.draw(hunger.getBG());
+		App.draw(hunger.getIcon());
+		warmth.WeightHigh();
+		App.draw(warmth.getBG());
+		App.draw(warmth.getIcon());
         App.display();
         App.clear();
     }

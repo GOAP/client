@@ -42,6 +42,9 @@
     <ClInclude Include="..\..\..\Source\Static.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Source\Moodlets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\StaticEntity.cpp">

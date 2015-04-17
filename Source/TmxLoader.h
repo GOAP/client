@@ -17,6 +17,9 @@ private:
 	
 	vector< vector <int> > tile_data;
 
+	sf::Sprite icons[4];
+	sf::Sprite bgs[3];
+
 	sf::Sprite terrains[6];
 	int TileData[64][64];
 	int ResourceData[64][64];
@@ -82,6 +85,31 @@ public:
 		/*
 		LOAD ALL NECESARY ASSETS;
 		*/
+		//Icons_Bg
+		sf::Texture* icon_energy = new sf::Texture();
+		sf::Texture* icon_thirst = new sf::Texture();
+		sf::Texture* icon_hunger = new sf::Texture();
+		sf::Texture* icon_warmth = new sf::Texture();
+		sf::Texture* bg_med = new sf::Texture();
+		sf::Texture* bg_low = new sf::Texture();
+		sf::Texture* bg_high = new sf::Texture();
+
+		icon_energy->loadFromFile("Assets/icon_energy.png");
+		icon_thirst->loadFromFile("Assets/icon_thirst.png");
+		icon_hunger->loadFromFile("Assets/icon_hunger.png");
+		icon_warmth->loadFromFile("Assets/icon_warmth.png");
+		bg_med->loadFromFile("Assets/bg_med.png");
+		bg_low->loadFromFile("Assets/bg_low.png");
+		bg_high->loadFromFile("Assets/bg_high.png");
+
+		bgs[0].setTexture(*bg_high);
+		bgs[1].setTexture(*bg_med);
+		bgs[2].setTexture(*bg_low);
+
+		icons[0].setTexture(*icon_energy);
+		icons[1].setTexture(*icon_thirst);
+		icons[2].setTexture(*icon_hunger);
+		icons[3].setTexture(*icon_warmth);
 
 		//Terrain
 		sf::Texture* stoneTerrain = new sf::Texture();
@@ -161,6 +189,15 @@ public:
 	vector< vector <int> > getTiles()
 	{
 		return tile_data;
+	}
+
+	sf::Sprite* getIcons()
+	{
+		return icons;
+	}
+	sf::Sprite* getBgs()
+	{
+		return bgs;
 	}
 };
 
