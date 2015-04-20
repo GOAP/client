@@ -173,7 +173,6 @@ namespace Planner {
                 }
 
                 if(candidate_operators.size() == 0) {
-                    std::cout << "no ops left, return null" << std::endl;
                     return NULL;
                 }
 
@@ -199,17 +198,14 @@ namespace Planner {
                     }
 
                     // Check if this ground state satisifes the subgoal.
+                    // Run all actions in the subplan and update h
                     State h = update_state(s, *subplan, *ground);
+                    // Run the current action candidate and modify the state
                     h = candidate->engage(h, *ground);
 
                     if(satisfies(h, g, weakMatch, copiedGround)) {
-                        std::cout << "Got it!" << std::endl;
                         found = true;
-
-                        // Run all actions in the subplan and update s
-                        s = update_state(s, *subplan, *ground);
-                        // Run the current action and modify the state
-                        s = candidate->engage(s, *ground);
+                        s = h;
                         break;
                     } else {
                         std::cout << "Nope, invalid final state." << std::endl;
