@@ -121,21 +121,21 @@ public:
 		sf::Texture* sandTerrain = new sf::Texture();
 		sf::Texture* grassTerrain = new sf::Texture();
 		sf::Texture* dirtTerrain = new sf::Texture();
-		sf::Texture* watterTerrain = new sf::Texture();
+		sf::Texture* pebbleTerrain = new sf::Texture();
 
 		stoneTerrain->loadFromFile("Assets/terrain_stone.png");
 		snowTerrain->loadFromFile("Assets/terrain_snow.png");
 		sandTerrain->loadFromFile("Assets/terrain_sand.png");
 		grassTerrain->loadFromFile("Assets/terrain_grass.png");
 		dirtTerrain->loadFromFile("Assets/terrain_dirt.png");
-		watterTerrain->loadFromFile("Assets/terrain_watter.png");
+		pebbleTerrain->loadFromFile("Assets/terrain_pebbles.png");
 
 		terrains[0].setTexture(*stoneTerrain);
 		terrains[1].setTexture(*snowTerrain);
 		terrains[2].setTexture(*sandTerrain);
 		terrains[3].setTexture(*grassTerrain);
 		terrains[4].setTexture(*dirtTerrain);
-		terrains[5].setTexture(*watterTerrain);
+		terrains[5].setTexture(*pebbleTerrain);
 
 		terrains[5].setScale(sf::Vector2f(0.5, 0.5));
 
