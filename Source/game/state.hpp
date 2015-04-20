@@ -67,6 +67,9 @@ namespace Game {
                 if(diffX > -2 && diffX < 2 && diffY > -2 && diffY < 2)
                     return true;
 
+            } else if(step.name == "pickup") {
+                std::cout << "Picked up item." << std::endl;
+                return true;
             }
 
             return false;

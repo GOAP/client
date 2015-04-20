@@ -124,12 +124,6 @@ int main(int argc, char* argv[]) {
         {Planner::Fact("!object_at", {"position"}, true), Planner::Fact("have_object", {"wood"}, false)}
     );
 
-    Planner::Action sell("sell",
-        {"position"},
-        {Planner::Fact("at", {"position"}, true), Planner::Fact("buyer_at", {"position"}, true), Planner::Fact("have_object", {"wood"}, false)},
-        {Planner::Fact("!have_object", {"wood"}, false), Planner::Fact("money", {"10"}, false)}
-    );
-
     Planner::State initialState({
         //Planner::Fact("health", {"70"}),
         Planner::Fact("at", {"0 0"}),
@@ -137,9 +131,7 @@ int main(int argc, char* argv[]) {
     });
 
     Planner::Goal goal({
-        //Planner::Fact("at", {"3000 1000"})
         Planner::Fact("have_object", {"wood"})
-        //Planner::Fact("money", {"10"})
     });
 
 	Planner::State pState;
@@ -152,7 +144,7 @@ int main(int argc, char* argv[]) {
 	}
 	//====================================================================//
 
-    Planner::Problem p({ move, pickup, sell }, initialState, goal);
+    Planner::Problem p({ move, pickup }, initialState, goal);
     p.print();
 
     Planner::Plan* solution = p.solve();
