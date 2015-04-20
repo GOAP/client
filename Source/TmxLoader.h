@@ -13,6 +13,8 @@ using namespace tinyxml2;
 class TmxLoader
 {
 private: 
+	sf::Font OSD_MONO;
+
 	vector<Entity*> _allEntities;
 	
 	vector< vector <int> > tile_data;
@@ -53,7 +55,6 @@ public:
 		int DataExtract2;
 
 		//NOT USE TILEDATA FOR NOW!
-		
 
 		XMLElement * ListElement = Element->FirstChild()->ToElement();
 
@@ -85,6 +86,9 @@ public:
 		/*
 		LOAD ALL NECESARY ASSETS;
 		*/
+		//Font
+		OSD_MONO.loadFromFile("Assets/osd_mono.ttf");
+
 		//Icons_Bg
 		sf::Texture* icon_energy = new sf::Texture();
 		sf::Texture* icon_thirst = new sf::Texture();
@@ -198,6 +202,11 @@ public:
 	sf::Sprite* getBgs()
 	{
 		return bgs;
+	}
+
+	sf::Font* getFont()
+	{
+		return &OSD_MONO;
 	}
 };
 

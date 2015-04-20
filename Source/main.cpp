@@ -40,6 +40,22 @@ Moodlets thirst;
 Moodlets hunger;
 Moodlets warmth;
 
+std::vector< sf::String > plan;
+
+//MAKE SURE MESSAGE IS 29 CHARACTERS OR AFTER THE 29th ADD \n ESCAPE CHARACTER FOR NEW LINE.
+void addMessage(string text)
+{
+	plan.push_back(sf::String(text));
+}
+
+void removeLates()
+{
+	plan.erase(plan.begin());
+	plan.shrink_to_fit();
+}
+
+void printPlan();
+
 void movementProvider(float x, float y) {
     sf::Vector2f target(x, y);
     auto printable = aiAgent.steerAi.collisionAvoidTo(&target, allTempEntities);
@@ -84,6 +100,11 @@ int main(int argc, char* argv[]) {
 	agentView.setSize(winWidth, winHeight); //600, 300
 	App.setView(agentView);
 
+	addMessage("HELLO my name is person thing");
+	addMessage("HELLO");
+	addMessage("HELLO");
+	addMessage("HELLO");
+
 	//Loads The Objects to static Entities;
 	sf::Sprite* terrains = loaderObject.loadFile("MapDataComplete_v2.xml");
 	allTempEntities = *loaderObject.getAllEntities();
@@ -91,11 +112,10 @@ int main(int argc, char* argv[]) {
 	worldState = StateMachine(allTempEntities);
 	float aix = aiAgent.getPositionReference()->x;
 	float aiy = aiAgent.getPositionReference()->y;
-	energy = Moodlets(aix + 100, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[0], &agentView);
-	thirst = Moodlets(aix + 250, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[1], &agentView);
-	hunger = Moodlets(aix + 400, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[2], &agentView);
-	warmth = Moodlets(aix + 550, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[3], &agentView);
-
+	energy = Moodlets(aix - 200, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[0], &agentView);
+	thirst = Moodlets(aix - 50, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[1], &agentView);
+	hunger = Moodlets(aix + 100, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[2], &agentView);
+	warmth = Moodlets(aix + 250, aiy - 200, loaderObject.getBgs(), loaderObject.getIcons()[3], &agentView);
 	//========================================================================================
 	sf::RectangleShape a(sf::Vector2f(32 * 100, 32 * 100));
 	a.setFillColor(sf::Color::Green);
@@ -194,6 +214,7 @@ int main(int argc, char* argv[]) {
             }
         }
 
+
 		for (int i = 0; i <= worldState.getAllEntities().size() - 1; ++i)
         {
 			App.draw(worldState.getAllEntities()[i]->getSprite());
@@ -206,6 +227,57 @@ int main(int argc, char* argv[]) {
         App.draw(*aiAgent.getDirectionShape());
 
 		/*====================================================*/
+
+		sf::RectangleShape InterfaceBox(sf::Vector2f(650, 180));
+		InterfaceBox.setPosition(agentView.getCenter().x - 275, agentView.getCenter().y + 185);
+		InterfaceBox.setFillColor(sf::Color(0, 0, 255));
+
+		InterfaceBox.setOutlineThickness(6);
+		InterfaceBox.setOutlineColor(sf::Color(0, 0, 0));
+
+		App.draw(InterfaceBox);
+
+		// Inventory Box
+		InterfaceBox.setSize(sf::Vector2f(450, 180));
+		InterfaceBox.setPosition(agentView.getCenter().x - 737, agentView.getCenter().y + 185);
+		InterfaceBox.setFillColor(sf::Color(0, 0, 255));
+
+		InterfaceBox.setOutlineThickness(6);
+		InterfaceBox.setOutlineColor(sf::Color(0, 0, 0));
+
+		App.draw(InterfaceBox);
+
+		//Message Board
+		InterfaceBox.setSize(sf::Vector2f(360, 500));
+		InterfaceBox.setPosition(agentView.getCenter().x + 384, agentView.getCenter().y - 135);
+		InterfaceBox.setFillColor(sf::Color(50, 50, 55));
+
+		InterfaceBox.setOutlineThickness(6);
+		InterfaceBox.setOutlineColor(sf::Color(0, 0, 0));
+
+		App.draw(InterfaceBox);
+
+		int planSize = plan.size();
+		if (plan.empty())
+		{
+		}
+		else if (planSize < 5)
+		{
+			for (int i = 0; i <= planSize - 1; ++i)
+			{
+
+				sf::Text toPrint;
+				toPrint.setFont(*loaderObject.getFont());
+				toPrint.setString(plan[i]);
+				toPrint.setCharacterSize(20);
+				toPrint.setPosition(sf::Vector2f(agentView.getCenter().x + 400, agentView.getCenter().y - 100 + i*toPrint.getCharacterSize()));
+				toPrint.setColor(sf::Color::Red);
+
+				App.draw(toPrint);
+			}
+
+		}
+
 		energy.WeightHigh();
 		App.draw(energy.getBG());
 		App.draw(energy.getIcon());
@@ -218,7 +290,8 @@ int main(int argc, char* argv[]) {
 		warmth.WeightHigh();
 		App.draw(warmth.getBG());
 		App.draw(warmth.getIcon());
-        App.display();
+		
+		App.display();
         App.clear();
     }
 }
@@ -264,3 +337,4 @@ bool isBorderHit(sf::Vector2f agentPos, sf::View view)
 		return false;
 		}
 	}
+
