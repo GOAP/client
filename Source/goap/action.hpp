@@ -53,13 +53,17 @@ namespace Planner {
                         s.erase(position);
 
                 } else { // Addit to the state
-                    // At this point, we know the name of the fact we want to create,
-                    // but we need to match up the arguments with the supplied ground state.
-                    std::vector<std::string> arguments = matchGrounds(it->params, ground);
+                    if(it->floating == false) { // Trivial case. Not floating? Add it directly.
+                        s.push_back(*it);
+                    } else { // Otherwise, match it with the ground.
+                        // At this point, we know the name of the fact we want to create,
+                        // but we need to match up the arguments with the supplied ground state.
+                        std::vector<std::string> arguments = matchGrounds(it->params, ground);
 
-                    // Got all of this postcondition's params matched up to their ground state.
-                    // All that's left is to instantiate a matching Fact and add it to the state.
-                    s.push_back(Fact(name, arguments));
+                        // Got all of this postcondition's params matched up to their ground state.
+                        // All that's left is to instantiate a matching Fact and add it to the state.
+                        s.push_back(Fact(name, arguments));
+                    }
                 }
             }
 

@@ -19,8 +19,10 @@ namespace Planner {
         bool satisfies(State state, Goal g, bool weak=true, GroundState* ground=NULL) {
             for(auto it = g.begin(); it != g.end(); it++) {
                 // Check if this fact is in the state
+                bool found = false;
                 for(auto its = state.begin(); its != state.end(); its++) {
                     if(its->name == it->name) {
+                        found = true;
                         assert(its->params.size() == it->params.size());
 
                         // If any of the arguments are different (and not floating), it doesn't satisfy the goal
@@ -33,9 +35,11 @@ namespace Planner {
 
                                 // Check with the ground state
                                 std::vector<std::string> arguments = matchGrounds(it->params, *ground);
+                                if(arguments.size() == 0) // No relevant argument found in current ground, skip
+                                    continue;
 
                                 if(its->params[i] != arguments[i]) {
-                                    std::cout << "STRONG MATCH FAILURE: " << it->params[i] << " != " << arguments[i] << std::endl;
+                                    //std::cout << "STRONG MATCH FAILURE: " << it->params[i] << " != " << arguments[i] << std::endl;
 
                                     return false;
                                 }
@@ -43,25 +47,30 @@ namespace Planner {
                         }
                     }
                 }
+
+                if(!found)
+                    return false;
             }
 
             return true;
         }
 
-        Action* choose_operator(Goal g) {
+        std::vector<Action*> choose_operator(Goal g) {
             // TODO: Add weighting/heuristics?
+            std::vector<Action*> result;
+
             for(auto it = this->actions.begin(); it != this->actions.end(); it++) {
                 // Check if any of the postconditions in this actions are relevant to some predicate in g
                 for(auto itp = it->second.postconditions.begin(); itp != it->second.postconditions.end(); itp++) {
                     for(auto itg = g.begin(); itg != g.end(); itg++) {
                         if(itp->name == itg->name)
-                            return &it->second;
+                            result.push_back(&it->second);
                     }
 
                 }
             }
 
-            return NULL;
+            return result;
         }
 
         std::vector<Fact> update_state(State s, Plan p, GroundState ground) {
@@ -97,7 +106,6 @@ namespace Planner {
                 }
             }
 
-
             std::sort(values.begin(), values.end()); // don't ask
 
             do { 
@@ -106,7 +114,7 @@ namespace Planner {
 
                 // Find all combinations
                 for(auto itp = act->params.begin(); itp != act->params.end(); itp++) {
-                    std::cout << *itp << " " << values[ctr] << std::endl;
+                    //std::cout << *itp << " " << values[ctr] << std::endl;
                     target[*itp] = values[ctr++];
                 }
 
@@ -146,6 +154,9 @@ namespace Planner {
                 }
             }
 
+            // Vector of applicable operators. 
+            auto candidate_operators = choose_operator(g);
+
             while(true) {
                 bool weakMatch = stepGround == NULL;
 
@@ -161,10 +172,14 @@ namespace Planner {
                     return p;
                 }
 
-                // Choose the cheapest operator relevant to this subgoal
-                Action* candidate = choose_operator(g);
-                if(candidate == NULL)
+                if(candidate_operators.size() == 0) {
+                    std::cout << "no ops left, return null" << std::endl;
                     return NULL;
+                }
+
+                // Get the first candidate operator, and pop it from the list
+                auto candidate = candidate_operators[0];
+                candidate_operators.erase(candidate_operators.begin());
 
                 // Generate possible ground states
                 std::vector<GroundState> grounds = this->generateGroundStates(candidate, s, g);
@@ -178,16 +193,27 @@ namespace Planner {
 
                     // Get a plan that solves candidate's preconditions with the current ground candidate
                     subplan = this->solve_(s, candidate->preconditions, depth + 1, copiedGround);
-                    if(subplan == NULL)
+                    if(subplan == NULL) {
+                        //std::cout << "Subplan invalid, continuing to next ground." << std::endl;
                         continue;
+                    }
 
-                    found = true;
+                    // Check if this ground state satisifes the subgoal.
+                    State h = update_state(s, *subplan, *ground);
+                    h = candidate->engage(h, *ground);
 
-                    // Run all actions in the subplan and update s
-                    s = update_state(s, *subplan, *ground);
-                    // Run the current action and modify the state
-                    s = candidate->engage(s, *ground);
-                    break;
+                    if(satisfies(h, g, weakMatch, copiedGround)) {
+                        std::cout << "Got it!" << std::endl;
+                        found = true;
+
+                        // Run all actions in the subplan and update s
+                        s = update_state(s, *subplan, *ground);
+                        // Run the current action and modify the state
+                        s = candidate->engage(s, *ground);
+                        break;
+                    } else {
+                        std::cout << "Nope, invalid final state." << std::endl;
+                    }
                 }
 
                 if(found == false) // None of the ground states are valid: no solution
@@ -218,6 +244,7 @@ namespace Planner {
             for(auto it = this->actions.begin(); it != this->actions.end(); it++) {
                 std::cout << " - ";
                 it->second.print();
+                std::cout << std::endl;
             }
             std::cout << std::endl;
 
@@ -225,6 +252,7 @@ namespace Planner {
             for(auto it = this->state.begin(); it != this->state.end(); it++) {
                 std::cout << " - ";
                 it->print();
+                std::cout << std::endl;
             }
             std::cout << std::endl;
 
@@ -232,6 +260,7 @@ namespace Planner {
             for(auto it = this->goal.begin(); it != this->goal.end(); it++) {
                 std::cout << " - ";
                 it->print();
+                std::cout << std::endl;
             }
             std::cout << std::endl;
         }
