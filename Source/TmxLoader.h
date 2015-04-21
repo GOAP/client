@@ -137,8 +137,6 @@ public:
 		terrains[4].setTexture(*dirtTerrain);
 		terrains[5].setTexture(*pebbleTerrain);
 
-		terrains[5].setScale(sf::Vector2f(0.5, 0.5));
-
 		//Resourcess
 		sf::Texture* treeTexture = new sf::Texture();
 		sf::Texture* rockTexture = new sf::Texture();
@@ -146,7 +144,7 @@ public:
 
 		treeTexture->loadFromFile("Assets/Tree.png");
 		rockTexture->loadFromFile("Assets/Stone.png");
-		woodTexture->loadFromFile("Assets/Wood.png");
+		woodTexture->loadFromFile("Assets/Log.png");
 
 		sf::Sprite tree_;
 		sf::Sprite rock_;

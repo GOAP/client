@@ -26,6 +26,9 @@ TmxLoader loaderObject;
 GLOBAL CONTAINER HOLDING ALL STATIC ENTITIES
 */
 std::vector<Entity*> allTempEntities;
+
+Entity* targetEntity = NULL;
+
 /*
 Creates the aiAgent with a raious of 10 and initial position of x-10, y-10.
 */
@@ -48,7 +51,7 @@ void addMessage(string text)
 	plan.push_back(sf::String(text));
 }
 
-void removeLates()
+void removeLatest()
 {
 	plan.erase(plan.begin());
 	plan.shrink_to_fit();
@@ -58,7 +61,14 @@ void printPlan();
 
 void movementProvider(float x, float y) {
     sf::Vector2f target(x, y);
-    auto printable = aiAgent.steerAi.collisionAvoidTo(&target, allTempEntities);
+	
+
+	if (targetEntity != NULL)
+		aiAgent.steerAi.collisionAvoidTo(&target, allTempEntities, targetEntity);
+	else
+		aiAgent.steerAi.collisionAvoidTo(&target, allTempEntities);
+
+	/*
 	if (printable.empty())
 	{
 		
@@ -71,7 +81,7 @@ void movementProvider(float x, float y) {
 			std::cout << printable[i]->getPosition().y << std::endl;
 		}
 		std::cout << std::endl << std::endl << std::endl;
-	}
+	}*/
 	
 }
 
@@ -99,11 +109,6 @@ int main(int argc, char* argv[]) {
 	winHeight = 750;
 	agentView.setSize(winWidth, winHeight); //600, 300
 	App.setView(agentView);
-
-	addMessage("HELLO my name is person thing");
-	addMessage("HELLO");
-	addMessage("HELLO");
-	addMessage("HELLO");
 
 	//Loads The Objects to static Entities;
 	sf::Sprite* terrains = loaderObject.loadFile("MapDataComplete_v2.xml");
@@ -140,14 +145,14 @@ int main(int argc, char* argv[]) {
 
     Planner::Action pickup("pickup",
         {"position"},
-        {Planner::Fact("at", {"position"}, true), Planner::Fact("object_at", {"position"}, true)},
-        {Planner::Fact("!object_at", {"position"}, true), Planner::Fact("have_object", {"wood"}, false)}
+        {Planner::Fact("at", {"position"}, true), Planner::Fact("wood_at", {"position"}, true)},
+        {Planner::Fact("!wood_at", {"position"}, true), Planner::Fact("have_object", {"wood"}, false)}
     );
-
+	
     Planner::State initialState({
         //Planner::Fact("health", {"70"}),
-        Planner::Fact("at", {"0 0"}),
-        Planner::Fact("object_at", {"100 100"})
+		Planner::Fact("at", { std::to_string((int) aiAgent.getPositionReference()->x) + " " + std::to_string((int) aiAgent.getPositionReference()->y) }),
+        Planner::Fact("wood_at", {"1792 576"})
     });
 
     Planner::Goal goal({
@@ -173,14 +178,25 @@ int main(int argc, char* argv[]) {
     state.movementProvider = movementProvider;
     state.locationProvider = locationProvider;
 
+	solution->push_back(Planner::Step("move", { "_ _", "500 500" }, false));
+
     // Print plan.
     std::cout << "<<<< PLAN >>>>" << std::endl;
     std::cout << "----" << std::endl << "Solution: " << std::endl;
     for(auto it = solution->begin(); it != solution->end(); it++) {
-        std::cout << " - ";
-        it->print();
-        std::cout << std::endl;
+		std::string step = "- " + it->name + "(";
+		for (auto itp = it->params.begin(); itp != it->params.end(); itp++) {
+			step += *itp;
+			if (itp != it->params.end() - 1)
+				step += ", ";
+		}
+		step += ")";
+
+		std::cout << step << std::endl;
+		addMessage(step);
     }
+
+
 
     // Main game loop.
     std::cout << "<<<< ENTERING MAIN LOOP >>>>" << std::endl;
@@ -208,7 +224,18 @@ int main(int argc, char* argv[]) {
 		float a = worldState.getCurrentTime();
         
 		if(solution->size() != 0) {
-            if(state.RunStep(*solution->begin())) {
+			auto currentStep = *solution->begin();
+
+			if (currentStep.name == "move") {
+				auto avoidCoords = currentStep.params[1];
+				auto vectorOfDoubles = stringToDouble(avoidCoords);
+				sf::Vector2f realCoords(vectorOfDoubles[0], vectorOfDoubles[1]);
+				targetEntity = worldState.find(realCoords);
+			}
+			else if (currentStep.name == "pickup") {
+				worldState.addToInventory((Interactable *) targetEntity);
+			}
+            if(state.RunStep(currentStep)) {
                 std::cout << "master: Action completed." << std::endl;
                 solution->erase(solution->begin());
             }
@@ -276,6 +303,15 @@ int main(int argc, char* argv[]) {
 				App.draw(toPrint);
 			}
 
+		}
+		if (!worldState.getInventory().empty())
+		{
+			for (int i = 0; i <= worldState.getInventory().size() - 1; ++i)
+			{
+				
+				worldState.getInventory()[i]->setPosition(sf::Vector2f(agentView.getCenter().x - 700 + 70 * i, agentView.getCenter().y + 200 + 60 * (int) ((worldState.getInventory().size() - 1) / 5)));
+				App.draw(worldState.getInventory()[i]->getSprite());
+			}
 		}
 
 		energy.WeightHigh();

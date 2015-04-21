@@ -79,6 +79,8 @@ public:
 	void fillHunger(float ammount);
 	void fillThirst(float ammount);
 
+	Interactable* find(sf::Vector2f where);
+
 	std::vector<Interactable*> getInteractables()
 	{
 		return _interactables;
@@ -99,6 +101,25 @@ public:
 
 	void addToInventory(Interactable* item)
 	{
+		for (int i = 0; i <= _allEntities.size() - 1; ++i)
+		{
+			if (item->getPosition() == _allEntities[i]->getPosition())
+			{
+				_allEntities.erase(_allEntities.begin() + i);
+				_allEntities.shrink_to_fit();
+			}
+				
+		}
+
+		for (int i = 0; i <= _interactables.size() - 1; ++i)
+		{
+			if (item->getPosition() == _interactables[i]->getPosition())
+			{
+				_interactables.erase(_interactables.begin() + i);
+				_interactables.shrink_to_fit();
+			}
+				
+		}
 		_inventory.push_back(item);
 	}
 	void removeFromInventory(int index)
@@ -188,4 +209,17 @@ void StateMachine::fillHunger(float ammount)
 void StateMachine::fillThirst(float ammount)
 {
 	_thirst += ammount;
+}
+
+Interactable* StateMachine::find(sf::Vector2f searchLocation)
+{
+	for (int i = 0; i <= _interactables.size() - 1; ++i)
+	{
+		if (magnitudeOf((_interactables[i]->getPosition() - searchLocation)) < 300)
+		{
+			return _interactables[i];
+		}
+	}
+
+	return NULL;
 }

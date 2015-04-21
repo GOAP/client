@@ -33,6 +33,10 @@ public:
 		
 		return _publicPosition;
 	}
+	void setPosition(sf::Vector2f pos)
+	{
+		_position = pos;
+	}
 	int getId()
 	{
 		return _id;
