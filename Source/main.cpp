@@ -33,7 +33,7 @@ Entity* targetEntity = NULL;
    Creates the aiAgent with a raious of 10 and initial position of x-10, y-10.
    */
 Agent aiAgent(10, 0, 0, 240, 0, 0);
-/*  
+/*	
     Initializes the world with a default state.
     */
 StateMachine worldState;
