@@ -47,6 +47,8 @@ private:
 	//Private Methods
 	void splitEntities()
 	{
+		_statics.clear();
+		_interactables.clear();
 		for (int i = 0; i <= _allEntities.size() - 1; ++i)
 		{
 			if (_allEntities[i]->getId() >= 100 && _allEntities[i]->getId() < 200)
@@ -127,6 +129,13 @@ public:
 		_inventory.erase(_inventory.begin() + index);
 		_inventory.shrink_to_fit();
 	}
+
+	void addEntity(Entity* toAdd)
+	{
+		_allEntities.push_back(toAdd);
+		splitEntities();
+	}
+
 };
 
 StateMachine::StateMachine(){}

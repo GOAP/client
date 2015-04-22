@@ -22,6 +22,8 @@ private:
 	sf::Sprite icons[4];
 	sf::Sprite bgs[3];
 
+	sf::Sprite _dropable[2];
+
 	sf::Sprite terrains[6];
 	int TileData[64][64];
 	int ResourceData[64][64];
@@ -141,22 +143,45 @@ public:
 		sf::Texture* treeTexture = new sf::Texture();
 		sf::Texture* rockTexture = new sf::Texture();
 		sf::Texture* woodTexture = new sf::Texture();
+		sf::Texture* fireTexture = new sf::Texture();
+		sf::Texture* bedTexture = new sf::Texture();
+		sf::Texture* appleTexture = new sf::Texture();
+
+		sf::Texture* InvLogTexture = new sf::Texture();
 
 		treeTexture->loadFromFile("Assets/Tree.png");
 		rockTexture->loadFromFile("Assets/Stone.png");
 		woodTexture->loadFromFile("Assets/Log.png");
+		fireTexture->loadFromFile("Assets/Fire.png");
+		bedTexture->loadFromFile("Assets/Bed.png");
+		appleTexture->loadFromFile("Assets/Apple.png");
+
+		InvLogTexture->loadFromFile("Assets/Inv_Log.png");
 
 		sf::Sprite tree_;
 		sf::Sprite rock_;
 		sf::Sprite wood_;
+		sf::Sprite apple_;
+
+		sf::Sprite invlog_;
 
 		tree_.setTexture(*treeTexture);
 		rock_.setTexture(*rockTexture);
 		wood_.setTexture(*woodTexture);
+		_dropable[0].setTexture(*fireTexture);
+		_dropable[1].setTexture(*bedTexture);
+		apple_.setTexture(*appleTexture);
+
+		invlog_.setTexture(*InvLogTexture);
 
 		tree_.setScale(sf::Vector2f(0.64, 0.64));
 		rock_.setScale(sf::Vector2f(0.64, 0.64));
 		wood_.setScale(sf::Vector2f(0.64, 0.64));
+		_dropable[0].setScale(sf::Vector2f(0.64, 0.64));
+		_dropable[1].setScale(sf::Vector2f(0.64, 0.64));
+		apple_.setScale(sf::Vector2f(0.64, 0.64));
+
+		invlog_.setScale(sf::Vector2f(0.64, 0.64));
 
 		for (int i = 0; i < MapHeight; ++i)
 		{
@@ -175,6 +200,11 @@ public:
 				if (ResourceData[i][j] == 3)
 				{
 					Entity* temp = new Interactable(ResourceData[i][j] + 200, j * 64, i * 64, wood_, "wood");
+					_allEntities.push_back(temp);
+				}
+				if (ResourceData[i][j] == 4)
+				{
+					Entity* temp = new Interactable(ResourceData[i][j] + 200, j * 64, i * 64, apple_, "apple");
 					_allEntities.push_back(temp);
 				}
 					
@@ -205,6 +235,11 @@ public:
 	sf::Font* getFont()
 	{
 		return &OSD_MONO;
+	}
+
+	sf::Sprite* getDroppable()
+	{
+		return _dropable;
 	}
 };
 

@@ -63,3 +63,4 @@ sf::Vector2f* Agent::getDirectionReference()
 	*/
 	return &direction;
 }
+

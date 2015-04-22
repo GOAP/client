@@ -97,6 +97,8 @@ bool isCenterMatch = true;
 sf::Clock cameraClock;
 sf::Vector2f cameraLookProvider(sf::Vector2f agentPos, sf::View view);
 bool isBorderHit(sf::Vector2f agentPos, sf::View view);
+void drop(sf::Sprite toDrop);
+
 
 int main(int argc, char* argv[]) {
     sf::RenderWindow App(sf::VideoMode(800, 600), "GOAP client");
@@ -109,7 +111,7 @@ int main(int argc, char* argv[]) {
 	winHeight = 750;
 	agentView.setSize(winWidth, winHeight); //600, 300
 	App.setView(agentView);
-
+	
 	//Loads The Objects to static Entities;
 	sf::Sprite* terrains = loaderObject.loadFile("MapDataComplete_v2.xml");
 	allTempEntities = *loaderObject.getAllEntities();
@@ -374,3 +376,8 @@ bool isBorderHit(sf::Vector2f agentPos, sf::View view)
 		}
 	}
 
+void drop(sf::Sprite toDrop)
+{
+	Static* temp = new Static(400, aiAgent.getPositionReference()->x + 64, aiAgent.getPositionReference()->y + 64, toDrop);
+	worldState.addEntity(temp);
+}
